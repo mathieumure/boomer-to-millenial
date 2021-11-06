@@ -1,0 +1,167 @@
+[
+  {
+    "title": "Squid Game",
+    "type": "TVSeries",
+    "date": "2021-09-17",
+    "directors": "",
+    "score": "8.1",
+    "imageUrl": "/images/dDlEmu3EZ0Pgg93K2SVNLCjCSvE.jpg",
+    "description": "Tentés par un prix alléchant en cas de victoire, des centaines de joueurs désargentés acceptent de s'affronter lors de jeux pour enfants aux enjeux mortels.",
+    "duration": null,
+    "genres": ["Action", "Drama", "Mystery"]
+  },
+  {
+    "title": "The Queen's Gambit",
+    "type": "TVSeries",
+    "date": "2020-10-23",
+    "directors": "",
+    "score": "8.6",
+    "imageUrl": "/images/zU0htwkhNvBQdVSIKB9s6hgVeFK.jpg",
+    "description": "Dans les années 1950, une jeune orpheline qui révèle un talent étonnant pour les échecs s'envole vers une gloire improbable tout en se battant contre ses addictions.",
+    "duration": "6h 35min",
+    "genres": ["Drama"]
+  },
+  {
+    "title": "Peaky Blinders",
+    "type": "TVSeries",
+    "date": "2014-09-29",
+    "directors": "",
+    "score": "8.8",
+    "imageUrl": "/images/bGZn5RVzMMXju4ev7xbl1aLdXqq.jpg",
+    "description": "En 1919, à Birmingham, soldats, révolutionnaires politiques et criminels combattent pour se faire une place dans le paysage industriel de l'après-Guerre. Le Parlement s'attend à une violente révolte, et Winston Churchill mobilise des forces spéciales pour contenir les menaces. La famille Shelby compte parmi les membres les plus redoutables. Surnommés les \"Peaky Blinders\" par rapport à leur utilisation de lames de rasoir cachées dans leurs casquettes, ils tirent principalement leur argent de paris et de vol. Tommy Shelby, le plus dangereux de tous, va devoir faire face à l'arrivée de Campbell, un impitoyable chef de la police qui a pour mission de nettoyer la ville. Ne doit-il pas se méfier tout autant de la ravissante Grace Burgess ? Fraîchement installée dans le voisinage, celle-ci semble cacher un mystérieux passé et un dangereux secret.",
+    "duration": "",
+    "genres": ["Crime", "Drama"]
+  },
+  {
+    "title": "Sherlock",
+    "type": "TVSeries",
+    "date": "2010-07-22",
+    "directors": "",
+    "score": "9.1",
+    "imageUrl": "/images/7WTsnHkbA0FaG6R9twfFde0I9hl.jpg",
+    "description": "Les aventures modernisées du plus célèbre des enquêteurs : Sherlock Holmes et de son ami et assistant, le Dr Watson. Un remake vivant et drôle du classique de Arthur Conan Doyle revisité par Steven Moffat.",
+    "duration": "1h 28mins",
+    "genres": ["Crime", "Drama", "Mystery", "Thriller"]
+  },
+  {
+    "title": "Dune",
+    "type": "Movie",
+    "date": "2021-09-16",
+    "directors": "Denis Villeneuve",
+    "score": "8.2",
+    "imageUrl": "/images/d5NXSklXo0qyIYkgV94XAgMIckC.jpg",
+    "description": "En l'an 10191, la substance la plus importante est l'Épice. Elle ne se trouve que sur une seule planète, Arakis, connue aussi sous le nom de Dune. La famille Atréide vient à gouverner cette planète mais son ennemi, la dynastie des Harkonnen lui tend un piège dès son arrivée. Paul, le fils du Duc Leto Atréide se réfugie alors dans le désert avec sa mère et y rencontre les Fremens, peuple caché dans le désert attendant l'arrivée d'un Messie...",
+    "duration": "2h 35min",
+    "genres": ["Action", "Adventure", "Drama"]
+  },
+  {
+    "title": "Eternals",
+    "type": "Movie",
+    "date": "2021-10-28",
+    "directors": "Chloé Zhao",
+    "score": "",
+    "imageUrl": "/images/6AdXwFTRTAzggD2QUTt5B7JFGKL.jpg",
+    "description": "Appartenant à une ancienne race d'êtres humains, les Eternels, qui peuvent manipuler l'énergie cosmique, ont été créés par les Célestes afin de protéger la Terre contre leurs homologues, les Déviants.",
+    "duration": "",
+    "genres": ["Action", "Adventure", "Drama", "Fantasy", "Sci-Fi"]
+  },
+  {
+    "title": "No Time to Die",
+    "type": "Movie",
+    "date": "2021-09-30",
+    "directors": "Cary Joji Fukunaga",
+    "score": "",
+    "imageUrl": "/images/iUgygt3fscRoKWCV1d0C7FbM9TP.jpg",
+    "description": "James Bond a quitté les services secrets et coule des jours heureux en Jamaïque. Mais sa tranquillité est de courte durée car son vieil ami Felix Leiter de la CIA débarque pour solliciter son aide : il s'agit de sauver un scientifique qui vient d'être kidnappé. Mais la mission se révèle bien plus dangereuse que prévu et Bond se retrouve aux trousses d'un mystérieux ennemi détenant de redoutables armes technologiques…",
+    "duration": "2h 43mins",
+    "genres": ["Action", "Adventure", "Thriller"]
+  },
+  {
+    "title": "Army of Thieves",
+    "type": "Movie",
+    "date": "",
+    "directors": "Matthias Schweighöfer",
+    "score": "",
+    "imageUrl": "/images/army-of-thieves-3-691x1024.jpg",
+    "description": "",
+    "duration": "",
+    "genres": ["Action", "Crime", "Horror"]
+  },
+  {
+    "title": "Red Notice",
+    "type": "Movie",
+    "date": "",
+    "directors": "Rawson Marshall Thurber",
+    "score": "",
+    "imageUrl": "/images/AviYDX3NuuyVQdZoLmLxNKp3zm8.jpg",
+    "description": "Quand un casse audacieux regroupe l'un des meilleurs agents du FBI (Dwayne Johnson) et deux criminels ennemis jurés (Gal Gadot et Ryan Reynolds), tout peut arriver.",
+    "duration": "",
+    "genres": ["Action", "Comedy", "Crime", "Thriller"]
+  },
+  {
+    "title": "Spider-Man: No Way Home",
+    "type": "Movie",
+    "date": "2021-12-16",
+    "directors": "Jon Watts",
+    "score": "",
+    "imageUrl": "/images/hthXXpjZ4dDa4YVN0siAdzNCDTb.jpg",
+    "description": "La suite des aventures de Spider-Man",
+    "duration": "",
+    "genres": ["Action", "Adventure", "Sci-Fi"]
+  },
+  {
+    "title": "Interstellar",
+    "type": "Movie",
+    "date": "2014-11-05",
+    "directors": "Christopher Nolan",
+    "score": "8.6",
+    "imageUrl": "/images/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg",
+    "description": "Dans un futur proche, face à une Terre exsangue, un groupe d’explorateurs utilise un vaisseau interstellaire pour franchir un trou de ver permettant de parcourir des distances jusque‐là infranchissables. Leur but : trouver un nouveau foyer pour l’humanité.",
+    "duration": "2h 49mins",
+    "genres": ["Adventure", "Drama", "Sci-Fi"]
+  },
+  {
+    "title": "Army of the Dead",
+    "type": "Movie",
+    "date": "2021-05-20",
+    "directors": "Zack Snyder",
+    "score": "5.8",
+    "imageUrl": "/images/z8CExJekGrEThbpMXAmCFvvgoJR.jpg",
+    "description": "Pendant une invasion de zombies à Las Vegas, un groupe de mercenaires décide de tenter le tout pour le tout et de pénétrer dans la zone de quarantaine pour le plus grand braquage de leur vie.",
+    "duration": "2h 28min",
+    "genres": ["Action", "Crime", "Horror"]
+  },
+  {
+    "title": "Arrival",
+    "type": "Movie",
+    "date": "2016-11-10",
+    "directors": "Denis Villeneuve",
+    "score": "7.9",
+    "imageUrl": "/images/x2FJsf1ElAgr63Y3PNPtJrcmpoe.jpg",
+    "description": "Lorsque de mystérieux vaisseaux venus du fond de l’espace surgissent un peu partout sur Terre, une équipe d’experts est rassemblée sous la direction de la linguiste Louise Banks afin de tenter de comprendre leurs intentions. Face à l’énigme que constituent leur présence et leurs messages mystérieux, les réactions dans le monde sont extrêmes et l’humanité se retrouve bientôt au bord d’une guerre absolue. Louise Banks et son équipe n’ont que très peu de temps pour trouver des réponses. Pour les obtenir, la jeune femme va prendre un risque qui pourrait non seulement lui coûter la vie, mais détruire le genre humain…",
+    "duration": "1h 56mins",
+    "genres": ["Drama", "Sci-Fi"]
+  },
+  {
+    "title": "Avengers: Endgame",
+    "type": "Movie",
+    "date": "2019-04-24",
+    "directors": "Anthony Russo, Joe Russo",
+    "score": "8.4",
+    "imageUrl": "/images/or06FN3Dka5tukK1e9sl16pB3iy.jpg",
+    "description": "Après leur défaite face au Titan Thanos qui dans le film précédent s'est approprié toutes les pierres du Gant de l'infini , les Avengers et les Gardiens de la Galaxie ayant survécu à son claquement de doigts qui a pulvérisé « la moitié de toute forme de vie dans l'Univers », Captain America, Thor, Bruce Banner, Natasha Romanoff, War Machine, Tony Stark, Nébula et Rocket, vont essayer de trouver une solution pour ramener leurs coéquipiers disparus et vaincre Thanos en se faisant aider par Ronin alias Clint Barton, Captain Marvel et Ant-Man.",
+    "duration": "3h 1mins",
+    "genres": ["Action", "Adventure", "Drama", "Sci-Fi"]
+  },
+  {
+    "title": "Dunkirk",
+    "type": "Movie",
+    "date": "2017-07-20",
+    "directors": "Christopher Nolan",
+    "score": "7.8",
+    "imageUrl": "/images/ebSnODDg9lbsMIaWg2uAbjn7TO5.jpg",
+    "description": "Au début de la Seconde Guerre mondiale, en mai 1940, environ 400 000 soldats britanniques, français et belges se retrouvent encerclés par les troupes allemandes dans la poche de Dunkerque. L'Opération Dynamo est mise en place pour évacuer le Corps expéditionnaire britannique (CEB) vers l'Angleterre. L'histoire s'intéresse aux destins croisés des soldats, pilotes, marins et civils anglais durant l'Opération Dynamo. Alors que le CEB est évacué par le port et les plages de Dunkerque, trois soldats britanniques, avec un peu d'ingéniosité et de chance, arrivent à embarquer sous les bombardements. Un périple bien plus grand les attend : la traversée du détroit du Pas de Calais.",
+    "duration": "1h 46min",
+    "genres": ["Action", "Drama", "History"]
+  }
+]
