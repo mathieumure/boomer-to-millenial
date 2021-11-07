@@ -1,5 +1,7 @@
-import { FC, FormEvent } from "react";
+import { FC, FormEvent, useState } from "react";
 import styled from "styled-components";
+import { useMovies } from "../movie/movieContext";
+import { MovieType } from "../data";
 
 const Container = styled.aside`
   border-right: solid 1px;
@@ -8,53 +10,148 @@ const Container = styled.aside`
   padding: 10px;
 `;
 
+const SearchSection = styled.section`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+`;
+
+const SearchHeading = styled.h2`
+  margin-bottom: 8px;
+`;
+
+const SearchCheckbox = styled.input`
+  margin-right: 4px;
+`;
+
+const CtaContainer = styled.div`
+  display: flex;
+  justify-content: center;
+`;
+
 export const LeftNav: FC = () => {
+  const { search } = useMovies();
+  const [inputValue, setInputValue] = useState<string>("");
+
+  const [includeAlreadyAdded, setIncludeAlreadyAdded] = useState<boolean>(true);
+
+  const [withMovieType, setWithMovieType] = useState<boolean>(true);
+  const [withSeriesType, setWithSeriesType] = useState<boolean>(true);
+
+  const [withAction, setWithAction] = useState<boolean>(true);
+  const [withFantastic, setWithFantastic] = useState<boolean>(true);
+  const [withDrama, setWithDrama] = useState<boolean>(true);
+  const [withComedy, setWithComedy] = useState<boolean>(true);
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
+    const movieType: MovieType[] = [];
+    if (withMovieType) {
+      movieType.push("Movie");
+    }
+    if (withSeriesType) {
+      movieType.push("TVSeries");
+    }
+
+    const movieKind: string[] = [];
+    if (withAction) {
+      movieKind.push("Action");
+    }
+    if (withFantastic) {
+      movieKind.push("Fantasy");
+    }
+    if (withDrama) {
+      movieKind.push("Drama");
+    }
+    if (withComedy) {
+      movieKind.push("Comedy");
+    }
+
+    search({
+      title: inputValue,
+      movieType,
+      kind: movieKind,
+      includeAlreadyAdded,
+    });
   };
 
   return (
     <Container>
       <h1>Zflix.</h1>
       <form onSubmit={handleSubmit}>
-        <input type="text" />
-        <section>
-          <h2>Type</h2>
+        <input
+          type="text"
+          onChange={(e) => setInputValue(e.target.value)}
+          value={inputValue}
+        />
+        <SearchSection>
+          <SearchHeading>Type</SearchHeading>
           <label>
-            <input type="checkbox" />
-            Films
+            <SearchCheckbox
+              type="checkbox"
+              onChange={(e) => setWithMovieType(e.target.checked)}
+              checked={withMovieType}
+            />
+            Movies
           </label>
           <label>
-            <input type="checkbox" />
+            <SearchCheckbox
+              type="checkbox"
+              onChange={(e) => setWithSeriesType(e.target.checked)}
+              checked={withSeriesType}
+            />
             Série
           </label>
-        </section>
-        <section>
-          <h2>Genre</h2>
+        </SearchSection>
+        <SearchSection>
+          <SearchHeading>Genre</SearchHeading>
           <label>
-            <input type="checkbox" />
+            <SearchCheckbox
+              type="checkbox"
+              onChange={(e) => setWithAction(e.target.checked)}
+              checked={withAction}
+            />
             Action
           </label>
           <label>
-            <input type="checkbox" />
+            <SearchCheckbox
+              type="checkbox"
+              onChange={(e) => setWithFantastic(e.target.checked)}
+              checked={withFantastic}
+            />
             Fantastique
           </label>
           <label>
-            <input type="checkbox" />
-            Documentaires
+            <SearchCheckbox
+              type="checkbox"
+              onChange={(e) => setWithDrama(e.target.checked)}
+              checked={withDrama}
+            />
+            Dramatique
           </label>
           <label>
-            <input type="checkbox" />
+            <SearchCheckbox
+              type="checkbox"
+              onChange={(e) => setWithComedy(e.target.checked)}
+              checked={withComedy}
+            />
             Comédie
           </label>
-        </section>
-        <section>
+        </SearchSection>
+        <SearchSection>
           <label>
-            <input type="checkbox" />
-            Inclure les titres déjà visionnés
+            <SearchCheckbox
+              type="checkbox"
+              onChange={(e) => setIncludeAlreadyAdded(e.target.checked)}
+              checked={includeAlreadyAdded}
+            />
+            Inclure les titres déjà ajoutés
           </label>
-        </section>
-        <button type="submit">Rechercher</button>
+        </SearchSection>
+        <CtaContainer>
+          <button type="submit">Rechercher</button>
+        </CtaContainer>
       </form>
     </Container>
   );
