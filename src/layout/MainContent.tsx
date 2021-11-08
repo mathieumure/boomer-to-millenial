@@ -4,11 +4,31 @@ import { MovieCard } from "../movie/movieCard";
 import styled from "styled-components";
 import { FinalPlay } from "./FinalPlay";
 import { useMovies } from "../movie/movieContext";
+import { CartItem } from "../movie/cartItem";
 
-const MainContainer = styled.main``;
+const MainContainer = styled.main`
+  overflow: auto;
+`;
 
 const CartContainer = styled.aside`
   background: white;
+  padding: 13vh 2.5vw 3vw 3vw;
+  overflow: auto;
+
+  h3 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    margin-bottom: 1.5rem;
+    color: var(--grey-800);
+  }
+`;
+
+const CartList = styled.ul`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 `;
 
 const FiltersContainer = styled.section`
@@ -119,7 +139,6 @@ export const MainContent: FC = () => {
               <MovieCard
                 movie={it}
                 onAction={() => handleAddToCart(it)}
-                actionName="Ajouter à ma liste"
                 key={it.title}
               />
             ))
@@ -131,14 +150,15 @@ export const MainContent: FC = () => {
 
       <CartContainer>
         <h3>Ma liste</h3>
-        {cart.map((it) => (
-          <MovieCard
-            movie={it}
-            onAction={() => handleRemoveFromCart(it)}
-            actionName="Supprimer de ma liste"
-            key={it.title}
-          />
-        ))}
+        <CartList>
+          {cart.map((it) => (
+            <CartItem
+              movie={it}
+              onAction={() => handleRemoveFromCart(it)}
+              key={it.title}
+            />
+          ))}
+        </CartList>
 
         <CTAWrapper>
           {cart.length > 0 && (

@@ -109,18 +109,14 @@ const Poster = styled.div<{ url: string }>`
 export const MovieCard: FC<{
   movie: Movie;
   onAction: () => void;
-  actionName: string;
-}> = ({ movie, onAction, actionName }) => {
-  const handleClick = () => {
-    onAction();
-  };
+}> = ({ movie, onAction }) => {
   return (
     <Container>
       <button
         type="button"
-        onClick={handleClick}
-        aria-label={actionName}
-        title={actionName}
+        onClick={() => onAction()}
+        aria-label="Ajouter à ma liste"
+        title="Ajouter à ma liste"
       >
         +
       </button>

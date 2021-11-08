@@ -15,8 +15,8 @@ declare global {
 
 const Container = styled.div`
   display: grid;
-  grid-template: auto / 300px 1fr 300px;
-  min-height: 100vh;
+  grid-template: 100vh / 20vw 1fr 22vw;
+  overflow: hidden;
   background: linear-gradient(127.31deg, #ffffff 15.25%, #f1f5f9 87.59%);
 
   ${ifFeature(
