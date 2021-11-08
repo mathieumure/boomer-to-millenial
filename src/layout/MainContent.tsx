@@ -5,23 +5,13 @@ import styled from "styled-components";
 import { FinalPlay } from "./FinalPlay";
 import { useMovies } from "../movie/movieContext";
 
-const MainContainer = styled.main`
-  display: flex;
-  width: 100%;
-  margin-top: 30px;
-  padding-right: 30px;
+const MainContainer = styled.main``;
+
+const CartContainer = styled.aside`
+  background: white;
 `;
 
-const ResultSection = styled.section`
-  width: 50%;
-`;
-
-const CartSection = styled.section`
-  width: 50%;
-  margin-left: 30px;
-`;
-
-const FiltersContainer = styled.div`
+const FiltersContainer = styled.section`
   display: flex;
   align-items: baseline;
 `;
@@ -31,6 +21,15 @@ const FiltersCheckbox = styled.label`
   input {
     margin-right: 4px;
   }
+`;
+
+const Gallery = styled.section`
+  display: flex;
+  margin: auto;
+  padding: 0 4vw;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.125rem;
 `;
 
 const FiltersContainerTitle = styled.h3`
@@ -70,8 +69,8 @@ export const MainContent: FC = () => {
   };
 
   return (
-    <MainContainer>
-      <ResultSection>
+    <>
+      <MainContainer>
         <FiltersContainer>
           <FiltersContainerTitle>Tri:</FiltersContainerTitle>
           <FiltersCheckbox>
@@ -113,20 +112,24 @@ export const MainContent: FC = () => {
             DESC
           </FiltersCheckbox>
         </FiltersContainer>
-        {searchResults.length > 0 ? (
-          searchResults.map((it) => (
-            <MovieCard
-              movie={it}
-              onAction={() => handleAddToCart(it)}
-              actionName="Ajouter à ma liste"
-              key={it.title}
-            />
-          ))
-        ) : (
-          <p>Aucun résultats</p>
-        )}
-      </ResultSection>
-      <CartSection>
+
+        <Gallery>
+          {searchResults.length > 0 ? (
+            searchResults.map((it) => (
+              <MovieCard
+                movie={it}
+                onAction={() => handleAddToCart(it)}
+                actionName="Ajouter à ma liste"
+                key={it.title}
+              />
+            ))
+          ) : (
+            <p>Aucun résultats</p>
+          )}
+        </Gallery>
+      </MainContainer>
+
+      <CartContainer>
         <h3>Ma liste</h3>
         {cart.map((it) => (
           <MovieCard
@@ -144,8 +147,8 @@ export const MainContent: FC = () => {
             </button>
           )}
         </CTAWrapper>
-      </CartSection>
+      </CartContainer>
       <FinalPlay display={started} onAction={() => setStarted(false)} />
-    </MainContainer>
+    </>
   );
 };

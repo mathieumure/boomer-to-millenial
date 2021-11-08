@@ -14,7 +14,10 @@ declare global {
 }
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
+  grid-template: auto / 300px 1fr 300px;
+  min-height: 100vh;
+  background: linear-gradient(127.31deg, #ffffff 15.25%, #f1f5f9 87.59%);
 
   ${ifFeature(
     "customFont",
@@ -26,7 +29,7 @@ const Container = styled.div`
 
 const DEFAULT_THEME: Theme = {
   features: {
-    customFont: false,
+    customFont: true,
   },
 };
 
