@@ -8,6 +8,7 @@ import { useMovies } from "../movie/movieContext";
 import { CartItem } from "../movie/cartItem";
 import { ifFeature, ifNotFeature } from "../baseDesign/utils";
 import { Flip } from "../baseDesign/flip";
+import { Filters } from "./Filters";
 
 const MainContainer = styled.main`
   ${ifNotFeature(
@@ -95,7 +96,7 @@ export const MainContent: FC = () => {
     useMovies();
   const [started, setStarted] = useState<boolean>(false);
   const [descOrder, setDescOrder] = useState<boolean>(false);
-  const [currentSortType, setCurrentSortType] = useState<keyof Movie>("score");
+  const [currentSortType, setCurrentSortType] = useState<keyof Movie>();
   const { features } = useTheme();
   const gallery = useRef<HTMLElement>(null);
   const watchList = useRef<HTMLUListElement>(null);
@@ -139,10 +140,16 @@ export const MainContent: FC = () => {
     sortMovie(sortType, descOrder);
   };
 
+  const handleFilterTypeChange = (sortType: keyof Movie, desc: boolean) => {
+    setCurrentSortType(sortType);
+    setDescOrder(desc);
+    sortMovie(sortType, desc);
+  };
+
   const handleDescTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDescOrder(e.target.checked);
     flipRead();
-    sortMovie(currentSortType, e.target.checked);
+    sortMovie(currentSortType as keyof Movie, e.target.checked);
   };
 
   if (!features.baseCss) {
@@ -230,48 +237,11 @@ export const MainContent: FC = () => {
   return (
     <>
       <MainContainer>
-        <FiltersContainer>
-          <FiltersContainerTitle>Tri:</FiltersContainerTitle>
-          <FiltersCheckbox>
-            <input
-              type="radio"
-              name="sortType"
-              value="score"
-              checked={currentSortType === "score"}
-              onChange={handleSortTypeChange}
-            />
-            Popularité
-          </FiltersCheckbox>
-          <FiltersCheckbox>
-            <input
-              type="radio"
-              name="sortType"
-              value="date"
-              checked={currentSortType === "date"}
-              onChange={handleSortTypeChange}
-            />
-            Date de sortie
-          </FiltersCheckbox>
-          <FiltersCheckbox>
-            <input
-              type="radio"
-              value="title"
-              name="sortType"
-              checked={currentSortType === "title"}
-              onChange={handleSortTypeChange}
-            />
-            Nom
-          </FiltersCheckbox>
-          <FiltersCheckbox>
-            <input
-              type="checkbox"
-              checked={descOrder}
-              onChange={handleDescTypeChange}
-            />
-            DESC
-          </FiltersCheckbox>
-        </FiltersContainer>
-
+        <Filters
+          currentSortType={currentSortType}
+          desc={descOrder}
+          handleSortTypeChange={handleFilterTypeChange}
+        />
         <Gallery ref={gallery}>
           {searchResults.length > 0 ? (
             searchResults.map((it) => (
