@@ -1,13 +1,29 @@
 import { FC, FormEvent, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { useMovies } from "../movie/movieContext";
 import { MovieType } from "../data";
+import { ifFeature, ifNotFeature } from "../baseDesign/utils";
 
 const Container = styled.aside`
-  border-right: solid 1px;
-  min-height: 100vh;
-  margin-right: 10px;
-  padding: 10px;
+  ${ifNotFeature(
+    "baseCss",
+    css`
+      border-right: solid 1px;
+      min-height: 100vh;
+      margin-right: 10px;
+      padding: 10px;
+    `
+  )}
+  ${ifFeature(
+    "baseCss",
+    css`
+      background: linear-gradient(
+        250.55deg,
+        #f1f5f9 36.53%,
+        rgba(255, 255, 255, 0) 103.26%
+      );
+    `
+  )}
 `;
 
 const SearchSection = styled.section`

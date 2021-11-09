@@ -1,5 +1,5 @@
 export type ThemeFeatures = {
-  customFont: boolean;
+  baseCss: boolean;
 };
 
 export type Theme = {

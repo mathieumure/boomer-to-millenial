@@ -4,7 +4,7 @@ import { LeftNav } from "./layout/LeftNav";
 import { MainContent } from "./layout/MainContent";
 import { MoviesProvider } from "./movie/movieContext";
 import { Theme, ThemeFeatures } from "./baseDesign/theme";
-import { ifFeature } from "./baseDesign/utils";
+import { ifFeature, ifNotFeature } from "./baseDesign/utils";
 
 declare global {
   interface Window {
@@ -14,19 +14,28 @@ declare global {
 }
 
 const Container = styled.div`
-  display: flex;
+  ${ifNotFeature(
+    "baseCss",
+    css`
+      display: flex;
+    `
+  )}
 
   ${ifFeature(
-    "customFont",
+    "baseCss",
     css`
       font-family: Arial, sans-serif;
+      display: grid;
+      grid-template: 100vh / 20vw 1fr 22vw;
+      overflow: hidden;
+      background: linear-gradient(127.31deg, #ffffff 15.25%, #f1f5f9 87.59%);
     `
   )}
 `;
 
 const DEFAULT_THEME: Theme = {
   features: {
-    customFont: false,
+    baseCss: true,
   },
 };
 
