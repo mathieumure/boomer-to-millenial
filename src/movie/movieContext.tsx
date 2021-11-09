@@ -64,7 +64,6 @@ const movieReducers = (state: ReducerState, action: ActionType) => {
       return { ...state, cart: nextCart };
     }
     case "SORT_MOVIES": {
-      console.log(action.desc, action.by);
       let nextMovies = _orderBy(
         state.searchResults,
         action.by,

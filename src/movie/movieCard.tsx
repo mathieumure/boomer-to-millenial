@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React from "react";
 import { Movie } from "../data";
 import styled from "styled-components";
 
@@ -105,9 +105,8 @@ export const MovieCard = React.memo<{
   onAction: () => void;
 }>(
   ({ movie, onAction }) => {
-    console.log("rendered");
     return (
-      <Container>
+      <Container data-flipid={movie.title}>
         <button
           type="button"
           onClick={() => onAction()}

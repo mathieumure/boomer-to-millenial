@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useState } from "react";
+import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
 import { Movie } from "../data";
 import { MovieCard } from "../movie/movieCard";
 import { MovieCardBase } from "../movie/movieCardBase";
@@ -7,6 +7,7 @@ import { FinalPlay } from "./FinalPlay";
 import { useMovies } from "../movie/movieContext";
 import { CartItem } from "../movie/cartItem";
 import { ifFeature, ifNotFeature } from "../baseDesign/utils";
+import { Flip } from "../baseDesign/flip";
 
 const MainContainer = styled.main`
   ${ifNotFeature(
@@ -86,37 +87,56 @@ const CTAWrapper = styled.div`
   justify-content: center;
 `;
 
+const flip = new Flip();
+
 export const MainContent: FC = () => {
   const { cart, searchResults, addToCart, sortMovie, removeFromCart } =
     useMovies();
   const [started, setStarted] = useState<boolean>(false);
   const [descOrder, setDescOrder] = useState<boolean>(false);
   const [currentSortType, setCurrentSortType] = useState<keyof Movie>("score");
-  const theme = useTheme();
+  const { features } = useTheme();
+  const gallery = useRef<HTMLElement>(null);
+
+  function flipRead() {
+    if (features.galleryFlip && gallery.current) {
+      flip.read(gallery.current.querySelectorAll("article"));
+    }
+  }
+
+  useEffect(() => {
+    if (features.galleryFlip && gallery.current) {
+      flip.play(gallery.current.querySelectorAll("article"));
+    }
+  });
 
   const handleAddToCart = (movie: Movie) => {
+    flipRead();
     addToCart(movie);
   };
 
   const handleRemoveFromCart = (movie: Movie) => {
+    flipRead();
     removeFromCart(movie);
   };
 
   const handleSortTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sortType = e.target.value as keyof Movie;
     setCurrentSortType(sortType);
+    flipRead();
     sortMovie(sortType, descOrder);
   };
 
   const handleDescTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDescOrder(e.target.checked);
+    flipRead();
     sortMovie(currentSortType, e.target.checked);
   };
 
-  if (!theme.features.baseCss) {
+  if (!features.baseCss) {
     return (
       <MainContainer>
-        <ResultSection>
+        <ResultSection ref={gallery}>
           <FiltersContainer>
             <FiltersContainerTitle>Tri:</FiltersContainerTitle>
             <FiltersCheckbox>
@@ -240,7 +260,7 @@ export const MainContent: FC = () => {
           </FiltersCheckbox>
         </FiltersContainer>
 
-        <Gallery>
+        <Gallery ref={gallery}>
           {searchResults.length > 0 ? (
             searchResults.map((it) => (
               <MovieCard
