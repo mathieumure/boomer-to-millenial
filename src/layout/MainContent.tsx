@@ -87,7 +87,8 @@ const CTAWrapper = styled.div`
   justify-content: center;
 `;
 
-const flip = new Flip();
+const galleryFlip = new Flip();
+const watchListFlip = new Flip();
 
 export const MainContent: FC = () => {
   const { cart, searchResults, addToCart, sortMovie, removeFromCart } =
@@ -97,39 +98,41 @@ export const MainContent: FC = () => {
   const [currentSortType, setCurrentSortType] = useState<keyof Movie>("score");
   const { features } = useTheme();
   const gallery = useRef<HTMLElement>(null);
+  const watchList = useRef<HTMLUListElement>(null);
 
-  function flipRead() {
+  function initFlip() {
     if (features.galleryFlip && gallery.current) {
-      flip.read(gallery.current.querySelectorAll("article"));
+      const galleryItems = gallery.current.querySelectorAll("article");
+      galleryFlip.read(galleryItems);
+      requestAnimationFrame(() => galleryFlip.play(galleryItems));
+    }
+    if (features.watchlistFlip && watchList.current) {
+      const watchListItems = watchList.current.querySelectorAll("li");
+      watchListFlip.read(watchListItems);
+      requestAnimationFrame(() => watchListFlip.play(watchListItems));
     }
   }
 
-  useEffect(() => {
-    if (features.galleryFlip && gallery.current) {
-      flip.play(gallery.current.querySelectorAll("article"));
-    }
-  });
-
   const handleAddToCart = (movie: Movie) => {
-    flipRead();
+    initFlip();
     addToCart(movie);
   };
 
   const handleRemoveFromCart = (movie: Movie) => {
-    flipRead();
+    initFlip();
     removeFromCart(movie);
   };
 
   const handleSortTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sortType = e.target.value as keyof Movie;
     setCurrentSortType(sortType);
-    flipRead();
+    initFlip();
     sortMovie(sortType, descOrder);
   };
 
   const handleDescTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDescOrder(e.target.checked);
-    flipRead();
+    initFlip();
     sortMovie(currentSortType, e.target.checked);
   };
 
@@ -277,7 +280,7 @@ export const MainContent: FC = () => {
 
       <CartContainer>
         <h3>Ma liste</h3>
-        <CartList>
+        <CartList ref={watchList}>
           {cart.map((it) => (
             <CartItem
               movie={it}

@@ -21,7 +21,6 @@ export class Flip {
   }
 
   play(elements: NodeListOf<HTMLElement>) {
-    console.log("play", elements);
     elements.forEach((item) => {
       const id = item.dataset.flipid;
       if (!id || !this.positions[id]) {
@@ -30,8 +29,6 @@ export class Flip {
 
       const first = this.positions[id];
       const last = item.getBoundingClientRect(); // LAST
-
-      console.log(id, first, last);
 
       // INVERT
       const deltaX = first.left - last.left;
@@ -53,21 +50,21 @@ export class Flip {
       );
 
       // --- old school animation ---
-      //   item.style.transition = "none";
-      //   item.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
+      // item.style.transition = "none";
+      // item.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
 
-      //   requestAnimationFrame(() => {
-      //     item.style.transition =
-      //       "transform 300ms cubic-bezier(0.4, 0.0, 0.2, 1)";
-      //     item.style.transform = "none";
+      // requestAnimationFrame(() => {
+      //   item.style.transition =
+      //     "transform 300ms cubic-bezier(0.4, 0.0, 0.2, 1)";
+      //   item.style.transform = "none";
 
-      //     // clean up
-      //     item.addEventListener(
-      //       "transitionend",
-      //       () => item.removeAttribute("style"),
-      //       { once: true }
-      //     );
-      //   });
+      //   // clean up
+      //   item.addEventListener(
+      //     "transitionend",
+      //     () => item.removeAttribute("style"),
+      //     { once: true }
+      //   );
+      // });
     });
   }
 }

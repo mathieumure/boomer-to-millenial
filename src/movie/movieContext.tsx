@@ -54,7 +54,7 @@ const movieReducers = (state: ReducerState, action: ActionType) => {
       if (state.cart.find((it) => it.title === action.movie.title)) {
         return state;
       }
-      const nextCart = [...state.cart, action.movie];
+      const nextCart = [action.movie, ...state.cart];
       return { ...state, cart: nextCart };
     }
     case "REMOVE_FROM_CART": {

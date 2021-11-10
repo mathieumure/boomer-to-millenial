@@ -1,15 +1,33 @@
 import { FC } from "react";
 import { Movie } from "../data";
-import styled from "styled-components";
+import styled, { css, useTheme } from "styled-components";
 
-const Container = styled.li`
+const Container = styled.li<{ fadein: boolean }>`
   display: flex;
   align-items: center;
+
+  ${(props) =>
+    props.fadein &&
+    css`
+      opacity: 0;
+      animation: fadein 200ms var(--easing-decelerate) 50ms forwards;
+
+      @keyframes fadein {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
+    `}
+
   p {
     color: var(--grey-700);
     flex-grow: 1;
     margin-left: 1.125rem;
   }
+
   button {
     flex-shrink: 0;
     display: flex;
@@ -60,8 +78,9 @@ export const CartItem: FC<{
   movie: Movie;
   onAction: () => void;
 }> = ({ movie, onAction }) => {
+  const { features } = useTheme();
   return (
-    <Container>
+    <Container data-flipid={movie.title} fadein={features.watchlistFlip}>
       <Poster src={movie.imageUrl} />
       <p>{movie.title}</p>
       <button
