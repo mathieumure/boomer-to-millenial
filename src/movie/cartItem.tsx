@@ -80,7 +80,10 @@ export const CartItem: FC<{
 }> = ({ movie, onAction }) => {
   const { features } = useTheme();
   return (
-    <Container data-flipid={movie.title} fadein={features.watchlistFlip}>
+    <Container
+      data-flipid={"cart-" + movie.title}
+      fadein={features.watchlistFlip}
+    >
       <Poster src={movie.imageUrl} />
       <p>{movie.title}</p>
       <button

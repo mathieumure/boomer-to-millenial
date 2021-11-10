@@ -1,4 +1,4 @@
-import { ChangeEvent, FC, useEffect, useRef, useState } from "react";
+import { ChangeEvent, FC, useLayoutEffect, useRef, useState } from "react";
 import { Movie } from "../data";
 import { MovieCard } from "../movie/movieCard";
 import { MovieCardBase } from "../movie/movieCardBase";
@@ -100,39 +100,48 @@ export const MainContent: FC = () => {
   const gallery = useRef<HTMLElement>(null);
   const watchList = useRef<HTMLUListElement>(null);
 
-  function initFlip() {
-    if (features.galleryFlip && gallery.current) {
-      const galleryItems = gallery.current.querySelectorAll("article");
-      galleryFlip.read(galleryItems);
-      requestAnimationFrame(() => galleryFlip.play(galleryItems));
-    }
+  function flipRead() {
     if (features.watchlistFlip && watchList.current) {
-      const watchListItems = watchList.current.querySelectorAll("li");
-      watchListFlip.read(watchListItems);
-      requestAnimationFrame(() => watchListFlip.play(watchListItems));
+      watchListFlip.read(watchList.current.querySelectorAll("li"));
+    }
+    if (features.galleryFlip && gallery.current) {
+      galleryFlip.read(gallery.current.querySelectorAll("article"));
     }
   }
 
+  function flipPlay() {
+    if (features.watchlistFlip && watchList.current) {
+      watchListFlip.play(watchList.current.querySelectorAll("li"));
+    }
+    if (features.galleryFlip && gallery.current) {
+      galleryFlip.play(gallery.current.querySelectorAll("article"));
+    }
+  }
+
+  useLayoutEffect(() => {
+    flipPlay();
+  });
+
   const handleAddToCart = (movie: Movie) => {
-    initFlip();
+    flipRead();
     addToCart(movie);
   };
 
   const handleRemoveFromCart = (movie: Movie) => {
-    initFlip();
+    flipRead();
     removeFromCart(movie);
   };
 
   const handleSortTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const sortType = e.target.value as keyof Movie;
     setCurrentSortType(sortType);
-    initFlip();
+    flipRead();
     sortMovie(sortType, descOrder);
   };
 
   const handleDescTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDescOrder(e.target.checked);
-    initFlip();
+    flipRead();
     sortMovie(currentSortType, e.target.checked);
   };
 
