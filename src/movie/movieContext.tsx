@@ -54,7 +54,7 @@ const movieReducers = (state: ReducerState, action: ActionType) => {
       if (state.cart.find((it) => it.title === action.movie.title)) {
         return state;
       }
-      const nextCart = [...state.cart, action.movie];
+      const nextCart = [action.movie, ...state.cart];
       return { ...state, cart: nextCart };
     }
     case "REMOVE_FROM_CART": {
@@ -64,7 +64,6 @@ const movieReducers = (state: ReducerState, action: ActionType) => {
       return { ...state, cart: nextCart };
     }
     case "SORT_MOVIES": {
-      console.log(action.desc, action.by);
       let nextMovies = _orderBy(
         state.searchResults,
         action.by,

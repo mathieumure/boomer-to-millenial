@@ -26,7 +26,7 @@ export const MovieCardBase: FC<{
     onAction();
   };
   return (
-    <Container>
+    <Container data-flipid={movie.title}>
       <Title>{movie.title}</Title>
       <CTA type="button" onClick={handleClick}>
         {actionName}

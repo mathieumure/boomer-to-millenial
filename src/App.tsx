@@ -36,6 +36,8 @@ const Container = styled.div`
 const DEFAULT_THEME: Theme = {
   features: {
     baseCss: true,
+    galleryFlip: true,
+    watchlistFlip: true,
   },
 };
 
