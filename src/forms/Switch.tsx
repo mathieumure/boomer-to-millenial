@@ -1,5 +1,6 @@
 import { ChangeEventHandler, FC } from "react";
-import styled, { useTheme } from "styled-components";
+import styled, { css, useTheme } from "styled-components";
+import { ifFeature } from "../baseDesign/utils";
 
 const Label = styled.label`
   display: inline-flex;
@@ -77,7 +78,13 @@ const SwitchElement = styled.span`
     position: absolute;
     left: var(--switch-padding);
     top: calc(50% - var(--switch-handle-size) / 2);
-    transition: transform 150ms var(--easing-standard);
+
+    ${ifFeature(
+      "microinteractions",
+      css`
+        transition: transform 150ms var(--easing-standard);
+      `
+    )}
   }
 `;
 

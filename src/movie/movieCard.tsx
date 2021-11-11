@@ -1,6 +1,7 @@
 import React from "react";
 import { Movie } from "../data";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { ifFeature } from "../baseDesign/utils";
 
 const Container = styled.article`
   display: inline-flex;
@@ -8,7 +9,22 @@ const Container = styled.article`
   border-radius: 0.5rem;
   box-shadow: 0px 5px 19px -6px rgba(17, 24, 39, 0.8);
   overflow: hidden;
-  transition: transform 250ms var(--easing-standard);
+
+  ${ifFeature(
+    "microinteractions",
+    css`
+      transition: transform 250ms var(--easing-standard);
+
+      button {
+        transition: transform 150ms var(--easing-decelerate),
+          opacity 150ms var(--easing-decelerate), color 100ms;
+      }
+
+      &:hover {
+        transform: scale(1.05);
+      }
+    `
+  )}
 
   button {
     position: absolute;
@@ -25,8 +41,6 @@ const Container = styled.article`
     background: transparent;
     color: white;
     font-size: 1.5rem;
-    transition: transform 150ms var(--easing-decelerate),
-      opacity 150ms var(--easing-decelerate), color 100ms;
 
     &:hover {
       color: rgba(255, 255, 255, 0.8);
@@ -57,7 +71,6 @@ const Container = styled.article`
   }
 
   &:hover {
-    transform: scale(1.05);
     button {
       transform: translateY(0);
       opacity: 1;
@@ -74,13 +87,23 @@ const Poster = styled.div`
   position: relative;
   display: inline-flex;
   overflow: hidden;
+
+  ${ifFeature(
+    "microinteractions",
+    css`
+      --background-zoom: 110%;
+    `
+  )}
+
   article:hover > &,
   button:focus + & {
-    background-size: 110%;
+    background-size: var(--background-zoom, 102%);
+
     &::after {
       opacity: 1;
     }
   }
+
   &::before {
     content: "";
     display: inline-block;
@@ -88,6 +111,7 @@ const Poster = styled.div`
     width: 100%;
     height: 0;
   }
+
   &::after {
     position: absolute;
     content: "";
