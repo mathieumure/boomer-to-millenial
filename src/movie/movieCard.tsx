@@ -41,13 +41,13 @@ const Container = styled.article`
       outline: none;
       transform: translateY(0);
       opacity: 1;
-      box-shadow: 0 0 0 3px var(--primary-base);
+      box-shadow: 0 0 0 3px var(--primary-light);
     }
 
     &:focus-visible {
       transform: translateY(0);
       opacity: 1;
-      box-shadow: 0 0 0 3px var(--primary-base);
+      box-shadow: 0 0 0 3px var(--primary-light);
     }
 
     // for browsers that support :focus-visible

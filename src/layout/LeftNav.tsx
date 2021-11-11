@@ -3,6 +3,7 @@ import styled, { css } from "styled-components";
 import { useMovies } from "../movie/movieContext";
 import { MovieType } from "../data";
 import { ifFeature, ifNotFeature } from "../baseDesign/utils";
+import TextInput from "../forms/Input";
 
 const Container = styled.aside`
   ${ifNotFeature(
@@ -22,6 +23,32 @@ const Container = styled.aside`
         #f1f5f9 36.53%,
         rgba(255, 255, 255, 0) 103.26%
       );
+    `
+  )}
+`;
+
+const MainTitle = styled.h1`
+  margin-top: 10vh;
+  text-align: center;
+  font-size: 2.25rem;
+  line-height: 2.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+
+  ${ifFeature(
+    "baseCss",
+    css`
+      background: var(--primary-background);
+      background-clip: text;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+
+      span {
+        background: var(--grey-900);
+        background-clip: text;
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
     `
   )}
 `;
@@ -94,12 +121,15 @@ export const LeftNav: FC = () => {
 
   return (
     <Container>
-      <h1>Zflix.</h1>
+      <MainTitle>
+        Zflix<span>.</span>
+      </MainTitle>
+
       <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          onChange={(e) => setInputValue(e.target.value)}
+        <TextInput
+          label="Rechercher par nom"
           value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
         />
         <SearchSection>
           <SearchHeading>Type</SearchHeading>
