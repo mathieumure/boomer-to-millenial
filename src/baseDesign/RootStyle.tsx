@@ -42,5 +42,6 @@ export const RootStyle = createGlobalStyle`
       font-family: "Inter";
       src: url("/fonts/Inter-VariableFont_slnt,wght.ttf");
       font-weight: 100 900;
+      font-display: block;
     }
 `;

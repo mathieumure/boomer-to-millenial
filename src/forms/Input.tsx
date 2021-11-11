@@ -13,7 +13,13 @@ const Label = styled.label`
     left: 12px;
     top: calc(50% - 1rem / 2);
     font-size: 0.875rem;
-    transition: all 150ms var(--easing-standard);
+
+    ${ifFeature(
+      "microinteractions",
+      css`
+        transition: all 150ms var(--easing-standard);
+      `
+    )}
   }
 
   ${ifFeature(
@@ -23,8 +29,8 @@ const Label = styled.label`
 
       input:focus + p,
       input:not([value=""]) + p {
-        // -padding-left}, -(margin-top + input-height/2 + font-size/2), 0
-        //        -12     ,-(     4     +         40/2   +      16/2  ), 0
+        // -padding-left, -(margin-top + input-height/2 + font-size/2), 0
+        //        -12   ,-(     4      +         40/2   +      16/2  ), 0
         transform: translate3d(-12px, -32px, 0);
         font-size: 0.75rem;
       }

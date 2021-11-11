@@ -46,7 +46,13 @@ const Checkmark = styled.span`
 
   path {
     stroke-dashoffset: 14;
-    transition: stroke-dashoffset 100ms ease-in-out;
+
+    ${ifFeature(
+      "microinteractions",
+      css`
+        transition: stroke-dashoffset 100ms ease-in-out;
+      `
+    )}
   }
 `;
 
