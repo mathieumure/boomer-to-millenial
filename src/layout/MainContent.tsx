@@ -143,6 +143,7 @@ export const MainContent: FC = () => {
   const handleFilterTypeChange = (sortType: keyof Movie, desc: boolean) => {
     setCurrentSortType(sortType);
     setDescOrder(desc);
+    flipRead();
     sortMovie(sortType, desc);
   };
 

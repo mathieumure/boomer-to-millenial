@@ -6,15 +6,14 @@ import { SortIcon } from "../icon/Sort.icon";
 const IconWrapper = styled.span<{ visible: boolean; reversed: boolean }>`
   display: ${(props) => (props.visible ? "flex" : "none")};
   align-items: center;
-  transform-origin: center center;
-  transform: ${(props) => (props.reversed ? "rotate(180deg)" : "none")};
+  transform: ${(props) => (props.reversed ? "matrix(1,0,0,-1,0,0)" : "none")};
   margin-left: 2px;
 `;
 
 const GridContainer = styled.section`
   display: grid;
   gap: 1.125rem;
-  margin-top: 100px;
+  margin-top: 12vh;
   margin-bottom: 24px;
   padding: 0 4vw;
   grid-template-columns: repeat(5, 9vw);
@@ -29,6 +28,7 @@ const FiltersContainer = styled.div`
 
 const FiltersContainerTitle = styled.h3`
   margin-right: 12px;
+  color: var(--grey-800);
 `;
 
 const FilterButton = styled.button`
@@ -39,18 +39,34 @@ const FilterButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   padding: 6px 12px;
   margin: 0 8px;
 
   border: 1px solid var(--grey-300);
   box-shadow: 0 1px 3.5px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 5px;
-  transition: all 0.3s;
+  transition: all 0.2s;
+  cursor: pointer;
 
-  &:hover,
-  &:focus {
-    cursor: pointer;
+  &:hover {
     transform: scale(1.05);
+  }
+  &:active {
+    background-color: var(--grey-300);
+  }
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--primary-base);
+  }
+  &:focus-visible {
+    opacity: 1;
+    box-shadow: 0 0 0 3px var(--primary-base);
+  }
+  // for browsers that support :focus-visible
+  &:focus:not(:focus-visible) {
+    box-shadow: 0px 1.16667px 3.5px rgba(0, 0, 0, 0.1),
+      0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06);
   }
 `;
 
