@@ -5,6 +5,7 @@ import { MovieType } from "../data";
 import { ifFeature, ifNotFeature } from "../baseDesign/utils";
 import TextInput from "../forms/Input";
 import Checkbox from "../forms/Checkbox";
+import Switch from "../forms/Switch";
 
 const Container = styled.aside`
   ${ifNotFeature(
@@ -24,6 +25,22 @@ const Container = styled.aside`
         #f1f5f9 36.53%,
         rgba(255, 255, 255, 0) 103.26%
       );
+    `
+  )}
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  ${ifFeature(
+    "baseCss",
+    css`
+      gap: 36px;
+      margin: 7vh auto 0;
+      max-width: 350px;
+      padding: 0 42px;
     `
   )}
 `;
@@ -50,20 +67,6 @@ const MainTitle = styled.h1`
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
-    `
-  )}
-`;
-
-const SearchSection = styled.section`
-  margin: 20px auto;
-  display: flex;
-  max-width: 200px;
-  flex-direction: column;
-
-  ${ifFeature(
-    "baseCss",
-    css`
-      margin: 20px auto 48px;
     `
   )}
 `;
@@ -153,13 +156,13 @@ export const LeftNav: FC = () => {
         Zflix<span>.</span>
       </MainTitle>
 
-      <form onSubmit={handleSubmit}>
+      <Form onSubmit={handleSubmit}>
         <TextInput
           label="Rechercher par nom"
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
         />
-        <SearchSection>
+        <section>
           <SearchHeading>Type</SearchHeading>
           <CheckboxColumn>
             <Checkbox
@@ -173,9 +176,9 @@ export const LeftNav: FC = () => {
               label="Série"
             />
           </CheckboxColumn>
-        </SearchSection>
+        </section>
 
-        <SearchSection>
+        <section>
           <SearchHeading>Genre</SearchHeading>
           <CheckboxColumn>
             <Checkbox
@@ -199,19 +202,19 @@ export const LeftNav: FC = () => {
               label="Comédie"
             />
           </CheckboxColumn>
-        </SearchSection>
+        </section>
 
-        <SearchSection>
-          <Checkbox
+        <section>
+          <Switch
             onChange={(e) => setIncludeAlreadyAdded(e.target.checked)}
             checked={includeAlreadyAdded}
             label="Inclure les titres déjà ajoutés"
           />
-        </SearchSection>
+        </section>
         <CtaContainer>
           <button type="submit">Rechercher</button>
         </CtaContainer>
-      </form>
+      </Form>
     </Container>
   );
 };

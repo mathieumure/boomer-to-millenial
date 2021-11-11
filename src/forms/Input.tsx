@@ -4,8 +4,6 @@ import { ifFeature, ifNotFeature } from "../baseDesign/utils";
 
 const Label = styled.label`
   width: 100%;
-  margin: 7vh auto 24px auto;
-  max-width: 200px;
   display: flex;
   position: relative;
 
@@ -15,7 +13,7 @@ const Label = styled.label`
     left: 12px;
     top: calc(50% - 1rem / 2);
     font-size: 0.875rem;
-    transition: all 200ms var(--easing-standard);
+    transition: all 150ms var(--easing-standard);
   }
 
   ${ifFeature(
