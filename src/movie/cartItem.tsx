@@ -22,10 +22,16 @@ const Container = styled.li<{ fadein: boolean }>`
       }
     `}
 
+  &:hover button {
+    opacity: 1;
+  }
+
   p {
     color: var(--grey-700);
     flex-grow: 1;
+    font-weight: 500;
     margin-left: 1.125rem;
+    font-size: 1rem;
   }
 
   button {
@@ -38,12 +44,14 @@ const Container = styled.li<{ fadein: boolean }>`
     width: 2.5rem;
     height: 2.5rem;
     border: 0;
-    background: transparent;
+    background: white;
     color: var(--grey-600);
     transition: 150ms box-shadow ease, 150ms background ease;
+    opacity: 0;
+    box-shadow: 0px 1.16667px 3.5px rgba(0, 0, 0, 0.1),
+      0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06);
+
     &:hover {
-      box-shadow: 0px 1.16667px 3.5px rgba(0, 0, 0, 0.1),
-        0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06);
       background: var(--grey-100);
       color: var(--grey-700);
     }
