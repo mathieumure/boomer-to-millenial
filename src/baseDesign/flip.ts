@@ -20,7 +20,13 @@ export class Flip {
     });
   }
 
-  play(elements: NodeListOf<HTMLElement>) {
+  play(
+    elements: NodeListOf<HTMLElement>,
+    buildInvertTransformation?: (
+      first: DOMRect,
+      last: DOMRect
+    ) => { transform: string }
+  ) {
     elements.forEach((item) => {
       const id = item.dataset.flipid;
       if (!id || !this.positions[id]) {
@@ -33,6 +39,9 @@ export class Flip {
       // INVERT
       const deltaX = first.left - last.left;
       const deltaY = first.top - last.top;
+      const defaultInvertTransformation = {
+        transform: `translate(${deltaX}px, ${deltaY}px)`,
+      };
 
       // PLAY
 
@@ -43,8 +52,12 @@ export class Flip {
       // --- experimental Web Animation API ---
       item.animate(
         [
-          { transform: `translate(${deltaX}px, ${deltaY}px)` },
-          { transform: "none" },
+          buildInvertTransformation
+            ? buildInvertTransformation(first, last)
+            : defaultInvertTransformation,
+          {
+            transform: "none",
+          },
         ],
         { duration: 300, easing: "cubic-bezier(0.4, 0.0, 0.2, 1)" }
       );

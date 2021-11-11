@@ -3,6 +3,7 @@ export type ThemeFeatures = {
   microinteractions: boolean;
   galleryFlip: boolean;
   watchlistFlip: boolean;
+  addCartFlip: boolean;
 };
 
 export type Theme = {

@@ -110,6 +110,7 @@ const CTAWrapper = styled.div`
 
 const galleryFlip = new Flip();
 const watchListFlip = new Flip();
+const addToCartFlip = new Flip();
 
 export const MainContent: FC = () => {
   const { cart, searchResults, addToCart, sortMovie, removeFromCart } =
@@ -117,6 +118,8 @@ export const MainContent: FC = () => {
   const [started, setStarted] = useState<boolean>(false);
   const [descOrder, setDescOrder] = useState<boolean>(false);
   const [currentSortType, setCurrentSortType] = useState<keyof Movie>();
+  const [lastAdded, setLastAdded] = useState<Movie>();
+  const [lastAction, setLastAction] = useState<"add" | "remove">();
   const { features } = useTheme();
   const gallery = useRef<HTMLElement>(null);
   const watchList = useRef<HTMLUListElement>(null);
@@ -128,6 +131,9 @@ export const MainContent: FC = () => {
     if (features.galleryFlip && gallery.current) {
       galleryFlip.read(gallery.current.querySelectorAll("article"));
     }
+    if (features.addCartFlip && gallery.current) {
+      addToCartFlip.read(gallery.current.querySelectorAll("div[data-flipid]"));
+    }
   }
 
   function flipPlay() {
@@ -137,6 +143,27 @@ export const MainContent: FC = () => {
     if (features.galleryFlip && gallery.current) {
       galleryFlip.play(gallery.current.querySelectorAll("article"));
     }
+    if (features.addCartFlip && watchList.current && lastAction === "add") {
+      addToCartFlip.play(
+        watchList.current.querySelectorAll(
+          `img[data-flipid="cart-img-${lastAdded?.title}"]`
+        ),
+        (first, last) => {
+          const ratioWidth = first.width / last.width;
+          const ratioHeight = first.height / last.height;
+          const transformedHeight = last.height * ratioHeight;
+          const transformedWidth = last.width * ratioWidth;
+          // We need to take account of the size added by the scale
+          const deltaX =
+            first.left - last.left + (transformedWidth - last.width) / 2;
+          const deltaY =
+            first.top - last.top + (transformedHeight - last.height) / 2;
+          return {
+            transform: `translate(${deltaX}px, ${deltaY}px) scale(${ratioWidth}, ${ratioHeight})`,
+          };
+        }
+      );
+    }
   }
 
   useLayoutEffect(() => {
@@ -144,11 +171,14 @@ export const MainContent: FC = () => {
   });
 
   const handleAddToCart = (movie: Movie) => {
+    setLastAction("add");
     flipRead();
+    setLastAdded(movie);
     addToCart(movie);
   };
 
   const handleRemoveFromCart = (movie: Movie) => {
+    setLastAction("remove");
     flipRead();
     removeFromCart(movie);
   };

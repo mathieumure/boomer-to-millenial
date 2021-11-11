@@ -39,6 +39,7 @@ const DEFAULT_THEME: Theme = {
     microinteractions: true,
     galleryFlip: true,
     watchlistFlip: true,
+    addCartFlip: true,
   },
 };
 

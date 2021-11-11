@@ -2,13 +2,14 @@ import { FC } from "react";
 import { Movie } from "../data";
 import styled, { css, useTheme } from "styled-components";
 import { withKeyboardFocus } from "../baseDesign/utils";
+import { ifFeature } from "../baseDesign/utils";
 
-const Container = styled.li<{ fadein: boolean }>`
+const Container = styled.li`
   display: flex;
   align-items: center;
 
-  ${(props) =>
-    props.fadein &&
+  ${ifFeature(
+    "watchlistFlip",
     css`
       opacity: 0;
       animation: fadein 200ms var(--easing-decelerate) 50ms forwards;
@@ -21,7 +22,30 @@ const Container = styled.li<{ fadein: boolean }>`
           opacity: 1;
         }
       }
-    `}
+    `
+  )}
+
+  ${ifFeature(
+    "addCartFlip",
+    css`
+      animation: none;
+      opacity: 1;
+      p,
+      button {
+        opacity: 0;
+        animation: fadein 200ms var(--easing-decelerate) 200ms forwards;
+
+        @keyframes fadein {
+          from {
+            opacity: 0;
+          }
+          to {
+            opacity: 1;
+          }
+        }
+      }
+    `
+  )}
 
   &:hover button {
     opacity: 1;
@@ -85,11 +109,8 @@ export const CartItem: FC<{
 }> = ({ movie, onAction }) => {
   const { features } = useTheme();
   return (
-    <Container
-      data-flipid={"cart-" + movie.title}
-      fadein={features.watchlistFlip}
-    >
-      <Poster src={movie.imageUrl} />
+    <Container data-flipid={"cart-" + movie.title}>
+      <Poster src={movie.imageUrl} data-flipid={"cart-img-" + movie.title} />
       <p>{movie.title}</p>
       <button
         type="button"
