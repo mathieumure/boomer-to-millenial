@@ -24,7 +24,7 @@ const Container = styled.div`
   ${ifFeature(
     "baseCss",
     css`
-      font-family: Arial, sans-serif;
+      font-family: Inter, sans-serif;
       display: grid;
       grid-template: 100vh / 20vw 1fr 22vw;
       overflow: hidden;
