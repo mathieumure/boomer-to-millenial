@@ -147,6 +147,13 @@ export const MainContent: FC = () => {
     }
   }, [searchResults]);
 
+  const playSound = (name: string) => {
+    if (features.sound) {
+      const sound = new Audio(`sound/${name}.mp3`);
+      sound.play();
+    }
+  };
+
   useLayoutEffect(() => {
     if (features.watchlistFlip && watchList.current) {
       watchListFlip.play(watchList.current.querySelectorAll("li"));
@@ -166,12 +173,14 @@ export const MainContent: FC = () => {
     flipRead();
     setLastAdded(movie);
     addToCart(movie);
+    playSound("add");
   };
 
   const handleRemoveFromCart = (movie: Movie) => {
     setLastAction("remove");
     flipRead();
     removeFromCart(movie);
+    playSound("delete");
   };
 
   const handleSortTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -179,6 +188,7 @@ export const MainContent: FC = () => {
     setCurrentSortType(sortType);
     flipRead();
     sortMovie(sortType, descOrder);
+    playSound("shuffle");
   };
 
   const handleFilterTypeChange = (sortType: keyof Movie, desc: boolean) => {
@@ -186,12 +196,19 @@ export const MainContent: FC = () => {
     setDescOrder(desc);
     flipRead();
     sortMovie(sortType, desc);
+    playSound("shuffle");
   };
 
   const handleDescTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setDescOrder(e.target.checked);
     flipRead();
     sortMovie(currentSortType as keyof Movie, e.target.checked);
+    playSound("shuffle");
+  };
+
+  const handleStart = () => {
+    playSound("cassette");
+    setStarted(true);
   };
 
   if (!features.baseCss) {
@@ -311,7 +328,7 @@ export const MainContent: FC = () => {
 
         {cart.length > 0 && (
           <CTAWrapper>
-            <Button type="button" onClick={() => setStarted(true)}>
+            <Button type="button" onClick={handleStart}>
               <PlayIcon />
               Démarrer
             </Button>

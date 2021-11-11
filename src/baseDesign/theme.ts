@@ -4,6 +4,7 @@ export type ThemeFeatures = {
   galleryFlip: boolean;
   watchlistFlip: boolean;
   addCartFlip: boolean;
+  sound: boolean;
 };
 
 export type Theme = {
