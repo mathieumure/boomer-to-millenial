@@ -20,11 +20,13 @@ export const RootStyle = createGlobalStyle`
     }
 
     :root {
-      --primary-base: #DC2828;
       --primary-light: #ff8888;
+      --primary-base: #DC2828;
+      --primary-dark: #c00b0b;
       --primary-background: linear-gradient(30.63deg, #DC2828 0%, #DB275D 94.67%);
       --grey-100: #f3f4f6;
       --grey-300: #D1D5DB;
+      --grey-400: #9CA3AF;
       --grey-500: #6B7280;
       --grey-600: #4B5563;
       --grey-700: #374151;
