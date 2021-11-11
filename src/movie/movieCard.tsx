@@ -67,6 +67,7 @@ const Container = styled.article`
 
 const Poster = styled.div`
   width: 9vw;
+  max-width: 200px;
   background-size: 102%;
   background-position: center;
   transition: background-size 250ms var(--easing-standard);

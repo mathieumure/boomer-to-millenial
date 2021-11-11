@@ -4,6 +4,7 @@ import { useMovies } from "../movie/movieContext";
 import { MovieType } from "../data";
 import { ifFeature, ifNotFeature } from "../baseDesign/utils";
 import TextInput from "../forms/Input";
+import Checkbox from "../forms/Checkbox";
 
 const Container = styled.aside`
   ${ifNotFeature(
@@ -30,7 +31,7 @@ const Container = styled.aside`
 const MainTitle = styled.h1`
   margin-top: 10vh;
   text-align: center;
-  font-size: 2.25rem;
+  font-size: 4vmin;
   line-height: 2.5rem;
   font-weight: 900;
   text-transform: uppercase;
@@ -54,18 +55,45 @@ const MainTitle = styled.h1`
 `;
 
 const SearchSection = styled.section`
-  margin-top: 20px;
-  margin-bottom: 20px;
+  margin: 20px auto;
   display: flex;
+  max-width: 200px;
   flex-direction: column;
+
+  ${ifFeature(
+    "baseCss",
+    css`
+      margin: 20px auto 48px;
+    `
+  )}
 `;
 
 const SearchHeading = styled.h2`
   margin-bottom: 8px;
+
+  ${ifFeature(
+    "baseCss",
+    css`
+      color: var(--grey-800);
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    `
+  )}
 `;
 
-const SearchCheckbox = styled.input`
-  margin-right: 4px;
+const CheckboxColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  ${ifFeature(
+    "baseCss",
+    css`
+      gap: 12px;
+      margin-left: 12px;
+    `
+  )}
 `;
 
 const CtaContainer = styled.div`
@@ -133,67 +161,52 @@ export const LeftNav: FC = () => {
         />
         <SearchSection>
           <SearchHeading>Type</SearchHeading>
-          <label>
-            <SearchCheckbox
-              type="checkbox"
+          <CheckboxColumn>
+            <Checkbox
               onChange={(e) => setWithMovieType(e.target.checked)}
               checked={withMovieType}
+              label="Films"
             />
-            Movies
-          </label>
-          <label>
-            <SearchCheckbox
-              type="checkbox"
+            <Checkbox
               onChange={(e) => setWithSeriesType(e.target.checked)}
               checked={withSeriesType}
+              label="Série"
             />
-            Série
-          </label>
+          </CheckboxColumn>
         </SearchSection>
+
         <SearchSection>
           <SearchHeading>Genre</SearchHeading>
-          <label>
-            <SearchCheckbox
-              type="checkbox"
+          <CheckboxColumn>
+            <Checkbox
               onChange={(e) => setWithAction(e.target.checked)}
               checked={withAction}
+              label="Action"
             />
-            Action
-          </label>
-          <label>
-            <SearchCheckbox
-              type="checkbox"
+            <Checkbox
               onChange={(e) => setWithFantastic(e.target.checked)}
               checked={withFantastic}
+              label="Fantastique"
             />
-            Fantastique
-          </label>
-          <label>
-            <SearchCheckbox
-              type="checkbox"
+            <Checkbox
               onChange={(e) => setWithDrama(e.target.checked)}
               checked={withDrama}
+              label="Drame"
             />
-            Dramatique
-          </label>
-          <label>
-            <SearchCheckbox
-              type="checkbox"
+            <Checkbox
               onChange={(e) => setWithComedy(e.target.checked)}
               checked={withComedy}
+              label="Comédie"
             />
-            Comédie
-          </label>
+          </CheckboxColumn>
         </SearchSection>
+
         <SearchSection>
-          <label>
-            <SearchCheckbox
-              type="checkbox"
-              onChange={(e) => setIncludeAlreadyAdded(e.target.checked)}
-              checked={includeAlreadyAdded}
-            />
-            Inclure les titres déjà ajoutés
-          </label>
+          <Checkbox
+            onChange={(e) => setIncludeAlreadyAdded(e.target.checked)}
+            checked={includeAlreadyAdded}
+            label="Inclure les titres déjà ajoutés"
+          />
         </SearchSection>
         <CtaContainer>
           <button type="submit">Rechercher</button>
