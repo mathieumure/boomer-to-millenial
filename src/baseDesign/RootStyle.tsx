@@ -34,4 +34,10 @@ export const RootStyle = createGlobalStyle`
       --easing-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
       --easing-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
     }
+
+    @font-face {
+      font-family: "Inter";
+      src: url("/fonts/Inter-VariableFont_slnt,wght.ttf");
+      font-weight: 100 900;
+    }
 `;
