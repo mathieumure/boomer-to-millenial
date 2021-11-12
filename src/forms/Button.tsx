@@ -1,5 +1,6 @@
 import { FC, MouseEventHandler } from "react";
 import styled, { useTheme } from "styled-components";
+import { withKeyboardFocus } from "../baseDesign/utils";
 
 const BaseButton = styled.button`
   min-height: 48px;
@@ -19,28 +20,18 @@ const BaseButton = styled.button`
   box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
     0px 4px 6px -2px rgba(0, 0, 0, 0.05);
 
-  :hover {
+  &:hover {
     background: var(--primary-dark);
   }
 
-  :active {
+  &:active {
     background: var(--primary-darker);
   }
 
-  &:focus-visible {
-    box-shadow: 0 0 0 3px var(--primary-light);
-  }
-
-  // fallback for older browsers
-  &:focus {
-    box-shadow: 0 0 0 3px var(--primary-light);
-  }
-
-  // no focus ring on browsers that support :focus-visible
-  &:focus:not(:focus-visible) {
-    box-shadow: 0px 10px 15px -3px rgba(0, 0, 0, 0.1),
-      0px 4px 6px -2px rgba(0, 0, 0, 0.05);
-  }
+  ${withKeyboardFocus({
+    initialShadow:
+      "0px 10px 15px -3px rgba(0, 0, 0, 0.1), 0px 4px 6px -2px rgba(0, 0, 0, 0.05);",
+  })}
 `;
 
 type ButtonProps = {
