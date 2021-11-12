@@ -37,7 +37,6 @@ const ResultSection = styled.section`
 const CartContainer = styled.aside`
   background: white;
   padding: 13vh 0 6vh 0;
-  overflow: auto;
   display: grid;
   gap: 1.5rem;
   grid-template: auto 1fr auto / auto;
@@ -110,6 +109,11 @@ const CTAWrapper = styled.div`
 
 const galleryFlip = new Flip();
 const watchListFlip = new Flip();
+const addToCartFlip = new Flip({
+  withScaling: true,
+  withAbsolute: true,
+  animationDuration: 600,
+});
 
 export const MainContent: FC = () => {
   const { cart, searchResults, addToCart, sortMovie, removeFromCart } =
@@ -117,6 +121,8 @@ export const MainContent: FC = () => {
   const [started, setStarted] = useState<boolean>(false);
   const [descOrder, setDescOrder] = useState<boolean>(false);
   const [currentSortType, setCurrentSortType] = useState<keyof Movie>();
+  const [lastAdded, setLastAdded] = useState<Movie>();
+  const [lastAction, setLastAction] = useState<"add" | "remove">();
   const { features } = useTheme();
   const gallery = useRef<HTMLElement>(null);
   const watchList = useRef<HTMLUListElement>(null);
@@ -128,27 +134,42 @@ export const MainContent: FC = () => {
     if (features.galleryFlip && gallery.current) {
       galleryFlip.read(gallery.current.querySelectorAll("article"));
     }
-  }
-
-  function flipPlay() {
-    if (features.watchlistFlip && watchList.current) {
-      watchListFlip.play(watchList.current.querySelectorAll("li"));
-    }
-    if (features.galleryFlip && gallery.current) {
-      galleryFlip.play(gallery.current.querySelectorAll("article"));
+    if (features.addCartFlip && gallery.current) {
+      addToCartFlip.read(
+        gallery.current.querySelectorAll("div[data-flipid^=cart-img]")
+      );
     }
   }
 
   useLayoutEffect(() => {
-    flipPlay();
-  });
+    if (features.galleryFlip && gallery.current) {
+      galleryFlip.play(gallery.current.querySelectorAll("article"));
+    }
+  }, [searchResults]);
+
+  useLayoutEffect(() => {
+    if (features.watchlistFlip && watchList.current) {
+      watchListFlip.play(watchList.current.querySelectorAll("li"));
+    }
+    if (features.addCartFlip && watchList.current && lastAction === "add") {
+      addToCartFlip.play(
+        watchList.current.querySelectorAll(
+          `img[data-flipid="cart-img-${lastAdded?.title}"]`
+        )
+      );
+      setLastAction(undefined);
+    }
+  }, [cart]);
 
   const handleAddToCart = (movie: Movie) => {
+    setLastAction("add");
     flipRead();
+    setLastAdded(movie);
     addToCart(movie);
   };
 
   const handleRemoveFromCart = (movie: Movie) => {
+    setLastAction("remove");
     flipRead();
     removeFromCart(movie);
   };

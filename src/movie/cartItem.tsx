@@ -1,27 +1,41 @@
 import { FC } from "react";
 import { Movie } from "../data";
-import styled, { css, useTheme } from "styled-components";
+import styled, { css, keyframes, useTheme } from "styled-components";
 import { withKeyboardFocus } from "../baseDesign/utils";
+import { ifFeature } from "../baseDesign/utils";
 
-const Container = styled.li<{ fadein: boolean }>`
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
+
+const Container = styled.li`
   display: flex;
   align-items: center;
 
-  ${(props) =>
-    props.fadein &&
+  ${ifFeature(
+    "watchlistFlip",
     css`
       opacity: 0;
-      animation: fadein 200ms var(--easing-decelerate) 50ms forwards;
+      animation: ${fadeIn} 200ms var(--easing-decelerate) 50ms forwards;
+    `
+  )}
 
-      @keyframes fadein {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
+  ${ifFeature(
+    "addCartFlip",
+    css`
+      animation: none;
+      opacity: 1;
+      p {
+        opacity: 0;
+        animation: ${fadeIn} 200ms var(--easing-decelerate) 500ms forwards;
       }
-    `}
+    `
+  )}
 
   &:hover button {
     opacity: 1;
@@ -71,25 +85,30 @@ const Container = styled.li<{ fadein: boolean }>`
   }
 `;
 
+const PosterContainer = styled.div`
+  flex-shrink: 0;
+  width: 4vw;
+  height: 4vw;
+`;
+
 const Poster = styled.img`
   width: 4vw;
   height: 4vw;
   flex-shrink: 0;
   border-radius: 0.5rem;
   object-fit: cover;
+  pointer-events: none;
 `;
 
 export const CartItem: FC<{
   movie: Movie;
   onAction: () => void;
 }> = ({ movie, onAction }) => {
-  const { features } = useTheme();
   return (
-    <Container
-      data-flipid={"cart-" + movie.title}
-      fadein={features.watchlistFlip}
-    >
-      <Poster src={movie.imageUrl} />
+    <Container data-flipid={"cart-" + movie.title}>
+      <PosterContainer>
+        <Poster src={movie.imageUrl} data-flipid={"cart-img-" + movie.title} />
+      </PosterContainer>
       <p>{movie.title}</p>
       <button
         type="button"

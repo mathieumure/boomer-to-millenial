@@ -130,7 +130,10 @@ export const MovieCard = React.memo<{
         >
           +
         </button>
-        <Poster style={{ backgroundImage: `url(${movie.imageUrl})` }} />
+        <Poster
+          style={{ backgroundImage: `url(${movie.imageUrl})` }}
+          data-flipid={"cart-img-" + movie.title}
+        />
       </Container>
     );
   },
