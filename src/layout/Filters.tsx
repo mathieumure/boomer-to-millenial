@@ -1,7 +1,8 @@
-import React, { useRef } from "react";
+import React from "react";
 import { Movie } from "../data";
 import styled from "styled-components";
 import { SortIcon } from "../icon/Sort.icon";
+import { withKeyboardFocus } from "../baseDesign/utils";
 
 const IconWrapper = styled.span<{ visible: boolean; reversed: boolean }>`
   display: ${(props) => (props.visible ? "flex" : "none")};
@@ -42,12 +43,12 @@ const FilterButton = styled.button`
   gap: 8px;
   padding: 6px 12px;
   margin: 0 8px;
-
   border: 1px solid var(--grey-300);
   box-shadow: 0 1px 3.5px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 5px;
   transition: all 0.2s;
   cursor: pointer;
+  outline: none;
 
   &:hover {
     transform: scale(1.05);
@@ -55,19 +56,11 @@ const FilterButton = styled.button`
   &:active {
     background-color: var(--grey-300);
   }
-  &:focus {
-    outline: none;
-    box-shadow: 0 0 0 3px var(--primary-base);
-  }
-  &:focus-visible {
-    opacity: 1;
-    box-shadow: 0 0 0 3px var(--primary-base);
-  }
-  // for browsers that support :focus-visible
-  &:focus:not(:focus-visible) {
-    box-shadow: 0px 1.16667px 3.5px rgba(0, 0, 0, 0.1),
-      0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06);
-  }
+
+  ${withKeyboardFocus({
+    initialShadow:
+      "0px 1.16667px 3.5px rgba(0, 0, 0, 0.1), 0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06)",
+  })}
 `;
 
 export const Filters: React.FC<{
@@ -89,19 +82,19 @@ export const Filters: React.FC<{
         <FilterButton onClick={() => handleClick("score")}>
           Popularité
           <IconWrapper visible={currentSortType === "score"} reversed={desc}>
-            <SortIcon width={20} height={20} />
+            <SortIcon />
           </IconWrapper>
         </FilterButton>
         <FilterButton onClick={() => handleClick("date")}>
           Date de sortie
           <IconWrapper visible={currentSortType === "date"} reversed={desc}>
-            <SortIcon width={20} height={20} />
+            <SortIcon />
           </IconWrapper>
         </FilterButton>
         <FilterButton onClick={() => handleClick("title")}>
           Nom
           <IconWrapper visible={currentSortType === "title"} reversed={desc}>
-            <SortIcon width={20} height={20} />
+            <SortIcon />
           </IconWrapper>
         </FilterButton>
       </FiltersContainer>

@@ -1,11 +1,13 @@
 import { FC, FormEvent, useState } from "react";
-import styled, { css } from "styled-components";
+import styled, { css, useTheme } from "styled-components";
 import { useMovies } from "../movie/movieContext";
 import { MovieType } from "../data";
 import { ifFeature, ifNotFeature } from "../baseDesign/utils";
 import TextInput from "../forms/Input";
 import Checkbox from "../forms/Checkbox";
 import Switch from "../forms/Switch";
+import Button from "../forms/Button";
+import { SearchIcon } from "../icon/Search.icon";
 
 const Container = styled.aside`
   ${ifNotFeature(
@@ -20,6 +22,9 @@ const Container = styled.aside`
   ${ifFeature(
     "baseCss",
     css`
+      display: flex;
+      flex-direction: column;
+      padding: 10vh 2.5vw 6vh 2.5vw;
       background: linear-gradient(
         250.55deg,
         #f1f5f9 36.53%,
@@ -32,21 +37,19 @@ const Container = styled.aside`
 const Form = styled.form`
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: center;
 
   ${ifFeature(
     "baseCss",
     css`
-      gap: 36px;
+      flex-grow: 1;
       margin: 7vh auto 0;
       max-width: 350px;
-      padding: 0 42px;
     `
   )}
 `;
 
 const MainTitle = styled.h1`
-  margin-top: 10vh;
   text-align: center;
   font-size: 4vmin;
   line-height: 2.5rem;
@@ -67,6 +70,20 @@ const MainTitle = styled.h1`
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
       }
+    `
+  )}
+`;
+
+const Filters = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  ${ifFeature(
+    "baseCss",
+    css`
+      gap: 36px;
     `
   )}
 `;
@@ -99,11 +116,6 @@ const CheckboxColumn = styled.div`
   )}
 `;
 
-const CtaContainer = styled.div`
-  display: flex;
-  justify-content: center;
-`;
-
 export const LeftNav: FC = () => {
   const { search } = useMovies();
   const [inputValue, setInputValue] = useState<string>("");
@@ -117,6 +129,8 @@ export const LeftNav: FC = () => {
   const [withFantastic, setWithFantastic] = useState<boolean>(true);
   const [withDrama, setWithDrama] = useState<boolean>(true);
   const [withComedy, setWithComedy] = useState<boolean>(true);
+
+  const { features } = useTheme();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -157,63 +171,67 @@ export const LeftNav: FC = () => {
       </MainTitle>
 
       <Form onSubmit={handleSubmit}>
-        <TextInput
-          label="Rechercher par nom"
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-        />
-        <section>
-          <SearchHeading>Type</SearchHeading>
-          <CheckboxColumn>
-            <Checkbox
-              onChange={(e) => setWithMovieType(e.target.checked)}
-              checked={withMovieType}
-              label="Films"
-            />
-            <Checkbox
-              onChange={(e) => setWithSeriesType(e.target.checked)}
-              checked={withSeriesType}
-              label="Série"
-            />
-          </CheckboxColumn>
-        </section>
-
-        <section>
-          <SearchHeading>Genre</SearchHeading>
-          <CheckboxColumn>
-            <Checkbox
-              onChange={(e) => setWithAction(e.target.checked)}
-              checked={withAction}
-              label="Action"
-            />
-            <Checkbox
-              onChange={(e) => setWithFantastic(e.target.checked)}
-              checked={withFantastic}
-              label="Fantastique"
-            />
-            <Checkbox
-              onChange={(e) => setWithDrama(e.target.checked)}
-              checked={withDrama}
-              label="Drame"
-            />
-            <Checkbox
-              onChange={(e) => setWithComedy(e.target.checked)}
-              checked={withComedy}
-              label="Comédie"
-            />
-          </CheckboxColumn>
-        </section>
-
-        <section>
-          <Switch
-            onChange={(e) => setIncludeAlreadyAdded(e.target.checked)}
-            checked={includeAlreadyAdded}
-            label="Inclure les titres déjà ajoutés"
+        <Filters>
+          <TextInput
+            label="Rechercher par nom"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
           />
-        </section>
-        <CtaContainer>
-          <button type="submit">Rechercher</button>
-        </CtaContainer>
+          <section>
+            <SearchHeading>Type</SearchHeading>
+            <CheckboxColumn>
+              <Checkbox
+                onChange={(e) => setWithMovieType(e.target.checked)}
+                checked={withMovieType}
+                label="Films"
+              />
+              <Checkbox
+                onChange={(e) => setWithSeriesType(e.target.checked)}
+                checked={withSeriesType}
+                label="Série"
+              />
+            </CheckboxColumn>
+          </section>
+
+          <section>
+            <SearchHeading>Genre</SearchHeading>
+            <CheckboxColumn>
+              <Checkbox
+                onChange={(e) => setWithAction(e.target.checked)}
+                checked={withAction}
+                label="Action"
+              />
+              <Checkbox
+                onChange={(e) => setWithFantastic(e.target.checked)}
+                checked={withFantastic}
+                label="Fantastique"
+              />
+              <Checkbox
+                onChange={(e) => setWithDrama(e.target.checked)}
+                checked={withDrama}
+                label="Drame"
+              />
+              <Checkbox
+                onChange={(e) => setWithComedy(e.target.checked)}
+                checked={withComedy}
+                label="Comédie"
+              />
+            </CheckboxColumn>
+          </section>
+
+          <section>
+            <Switch
+              onChange={(e) => setIncludeAlreadyAdded(e.target.checked)}
+              checked={includeAlreadyAdded}
+              label="Inclure les titres déjà ajoutés"
+            />
+          </section>
+        </Filters>
+
+        <Button>
+          {features.baseCss && <SearchIcon />}
+          Rechercher
+        </Button>
       </Form>
     </Container>
   );

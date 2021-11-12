@@ -22,7 +22,8 @@ export const RootStyle = createGlobalStyle`
     :root {
       --primary-light: #ff8888;
       --primary-base: #DC2828;
-      --primary-dark: #c00b0b;
+      --primary-dark: #ca1111;
+      --primary-darker: #b30808;
       --primary-background: linear-gradient(30.63deg, #DC2828 0%, #DB275D 94.67%);
       --grey-100: #f3f4f6;
       --grey-300: #D1D5DB;

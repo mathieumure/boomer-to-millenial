@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Movie } from "../data";
 import styled, { css, useTheme } from "styled-components";
+import { withKeyboardFocus } from "../baseDesign/utils";
 
 const Container = styled.li<{ fadein: boolean }>`
   display: flex;
@@ -22,10 +23,16 @@ const Container = styled.li<{ fadein: boolean }>`
       }
     `}
 
+  &:hover button {
+    opacity: 1;
+  }
+
   p {
     color: var(--grey-700);
     flex-grow: 1;
+    font-weight: 500;
     margin-left: 1.125rem;
+    font-size: 1rem;
   }
 
   button {
@@ -38,12 +45,14 @@ const Container = styled.li<{ fadein: boolean }>`
     width: 2.5rem;
     height: 2.5rem;
     border: 0;
-    background: transparent;
+    background: white;
     color: var(--grey-600);
     transition: 150ms box-shadow ease, 150ms background ease;
+    opacity: 0;
+    box-shadow: 0px 1.16667px 3.5px rgba(0, 0, 0, 0.1),
+      0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06);
+
     &:hover {
-      box-shadow: 0px 1.16667px 3.5px rgba(0, 0, 0, 0.1),
-        0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06);
       background: var(--grey-100);
       color: var(--grey-700);
     }
@@ -52,17 +61,13 @@ const Container = styled.li<{ fadein: boolean }>`
     }
     &:focus {
       outline: none;
-      box-shadow: 0 0 0 3px var(--primary-light);
-    }
-    &:focus-visible {
       opacity: 1;
-      box-shadow: 0 0 0 3px var(--primary-light);
     }
-    // for browsers that support :focus-visible
-    &:focus:not(:focus-visible) {
-      box-shadow: 0px 1.16667px 3.5px rgba(0, 0, 0, 0.1),
-        0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06);
-    }
+
+    ${withKeyboardFocus({
+      initialShadow:
+        "0px 1.16667px 3.5px rgba(0, 0, 0, 0.1), 0px 1.16667px 2.33333px rgba(0, 0, 0, 0.06);",
+    })}
   }
 `;
 

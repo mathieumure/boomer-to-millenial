@@ -1,6 +1,6 @@
 import { ChangeEventHandler, FC } from "react";
 import styled, { css, useTheme } from "styled-components";
-import { ifFeature } from "../baseDesign/utils";
+import { ifFeature, withKeyboardFocus } from "../baseDesign/utils";
 
 const Label = styled.label`
   display: inline-flex;
@@ -69,19 +69,7 @@ const Input = styled.input`
         stroke-dashoffset: 0;
       }
 
-      &:focus-visible ~ span {
-        box-shadow: 0 0 0 3px var(--primary-light);
-      }
-
-      // fallback for older browsers
-      &:focus ~ span {
-        box-shadow: 0 0 0 3px var(--primary-light);
-      }
-
-      // no focus ring on browsers that support :focus-visible
-      &:focus:not(:focus-visible) ~ span {
-        box-shadow: none;
-      }
+      ${withKeyboardFocus({ relativeTarget: "~ span" })}
     `
   )}
 `;

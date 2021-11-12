@@ -1,13 +1,12 @@
-import React from "react";
+import { FC } from "react";
 
-export const SortIcon: React.FC<{
-  width: number;
-  height: number;
+export const SortIcon: FC<{
+  size?: number;
   fill?: string;
-}> = ({ width, height, fill = "curent" }) => (
+}> = ({ size = 20, fill = "currentColor" }) => (
   <svg
-    width={width}
-    height={height}
+    width={size}
+    height={size}
     viewBox="0 0 16 11"
     fill="currentColor"
     xmlns="http://www.w3.org/2000/svg"
