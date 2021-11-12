@@ -1,4 +1,4 @@
-import { FC, MouseEventHandler } from "react";
+import { ButtonHTMLAttributes, FC } from "react";
 import styled, { useTheme } from "styled-components";
 import { withKeyboardFocus } from "../baseDesign/utils";
 
@@ -34,27 +34,17 @@ const BaseButton = styled.button`
   })}
 `;
 
-type ButtonProps = {
-  type?: "submit" | "button";
-  onClick?: MouseEventHandler;
-};
-
-const Button: FC<ButtonProps> = ({ type = "submit", onClick, children }) => {
+const Button: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({
+  children,
+  ...props
+}) => {
   const { features } = useTheme();
 
   if (!features.baseCss) {
-    return (
-      <button type={type} onClick={onClick}>
-        {children}
-      </button>
-    );
+    return <button {...props}>{children}</button>;
   }
 
-  return (
-    <BaseButton type={type} onClick={onClick}>
-      {children}
-    </BaseButton>
-  );
+  return <BaseButton {...props}>{children}</BaseButton>;
 };
 
 export default Button;

@@ -82,19 +82,19 @@ export const Filters: React.FC<{
         <FilterButton onClick={() => handleClick("score")}>
           Popularité
           <IconWrapper visible={currentSortType === "score"} reversed={desc}>
-            <SortIcon width={20} height={20} />
+            <SortIcon />
           </IconWrapper>
         </FilterButton>
         <FilterButton onClick={() => handleClick("date")}>
           Date de sortie
           <IconWrapper visible={currentSortType === "date"} reversed={desc}>
-            <SortIcon width={20} height={20} />
+            <SortIcon />
           </IconWrapper>
         </FilterButton>
         <FilterButton onClick={() => handleClick("title")}>
           Nom
           <IconWrapper visible={currentSortType === "title"} reversed={desc}>
-            <SortIcon width={20} height={20} />
+            <SortIcon />
           </IconWrapper>
         </FilterButton>
       </FiltersContainer>
