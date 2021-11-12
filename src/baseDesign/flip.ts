@@ -83,17 +83,24 @@ export class Flip {
       }
 
       // --- experimental Web Animation API ---
-      const keyframes = [
-        transformation,
-        {
-          transform: "none",
-        },
-      ];
+      const keyframes = [transformation];
+
       if (this.withAbsolute) {
-        keyframes.push({
-          position: "initial",
-        });
+        keyframes.push(
+          {
+            transform: "none",
+            position: "absolute",
+            offset: 0.99,
+          },
+          {
+            position: "initial",
+            offset: 1,
+          }
+        );
+      } else {
+        keyframes.push({ transform: "none" });
       }
+
       item.animate(keyframes, {
         duration: this.animationDuration,
         easing: "cubic-bezier(0.4, 0.0, 0.2, 1)",

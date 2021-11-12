@@ -30,10 +30,9 @@ const Container = styled.li`
     css`
       animation: none;
       opacity: 1;
-      p,
-      button {
+      p {
         opacity: 0;
-        animation: ${fadeIn} 200ms var(--easing-decelerate) 200ms forwards;
+        animation: ${fadeIn} 200ms var(--easing-decelerate) 500ms forwards;
       }
     `
   )}
@@ -87,6 +86,7 @@ const Container = styled.li`
 `;
 
 const PosterContainer = styled.div`
+  flex-shrink: 0;
   width: 4vw;
   height: 4vw;
 `;

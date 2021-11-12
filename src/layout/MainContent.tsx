@@ -112,7 +112,7 @@ const watchListFlip = new Flip();
 const addToCartFlip = new Flip({
   withScaling: true,
   withAbsolute: true,
-  animationDuration: 800,
+  animationDuration: 600,
 });
 
 export const MainContent: FC = () => {
