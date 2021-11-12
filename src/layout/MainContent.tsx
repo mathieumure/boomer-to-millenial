@@ -37,7 +37,6 @@ const ResultSection = styled.section`
 const CartContainer = styled.aside`
   background: white;
   padding: 13vh 0 6vh 0;
-  overflow: auto;
   display: grid;
   gap: 1.5rem;
   grid-template: auto 1fr auto / auto;
@@ -110,7 +109,11 @@ const CTAWrapper = styled.div`
 
 const galleryFlip = new Flip();
 const watchListFlip = new Flip();
-const addToCartFlip = new Flip({ withScaling: true });
+const addToCartFlip = new Flip({
+  withScaling: true,
+  withAbsolute: true,
+  animationDuration: 800,
+});
 
 export const MainContent: FC = () => {
   const { cart, searchResults, addToCart, sortMovie, removeFromCart } =
@@ -138,12 +141,15 @@ export const MainContent: FC = () => {
     }
   }
 
-  function flipPlay() {
-    if (features.watchlistFlip && watchList.current) {
-      watchListFlip.play(watchList.current.querySelectorAll("li"));
-    }
+  useLayoutEffect(() => {
     if (features.galleryFlip && gallery.current) {
       galleryFlip.play(gallery.current.querySelectorAll("article"));
+    }
+  }, [searchResults]);
+
+  useLayoutEffect(() => {
+    if (features.watchlistFlip && watchList.current) {
+      watchListFlip.play(watchList.current.querySelectorAll("li"));
     }
     if (features.addCartFlip && watchList.current && lastAction === "add") {
       addToCartFlip.play(
@@ -153,11 +159,7 @@ export const MainContent: FC = () => {
       );
       setLastAction(undefined);
     }
-  }
-
-  useLayoutEffect(() => {
-    flipPlay();
-  });
+  }, [cart]);
 
   const handleAddToCart = (movie: Movie) => {
     setLastAction("add");

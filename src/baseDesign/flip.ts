@@ -1,3 +1,7 @@
+type TransformationType = {
+  [A in keyof CSSStyleDeclaration]?: CSSStyleDeclaration[A];
+};
+
 /**
  * Basic implementation of the FLIP technique (First, Last, Invert, Play)
  * (https://aerotwist.com/blog/flip-your-animations/)
@@ -5,17 +9,28 @@
  */
 export class Flip {
   private positions: { [id: string]: DOMRect };
-  private withScaling: boolean;
+  private readonly withScaling: boolean;
+  private readonly withAbsolute: boolean;
+  private animationDuration: number;
 
-  constructor(options?: { withScaling: boolean }) {
+  constructor(options?: {
+    withScaling?: boolean;
+    withAbsolute?: boolean;
+    animationDuration?: number;
+  }) {
     this.positions = {};
+    this.animationDuration = options?.animationDuration || 300;
     this.withScaling = options?.withScaling || false;
+    this.withAbsolute = options?.withAbsolute || false;
   }
 
-  private getTransformation(
-    first: DOMRect,
-    last: DOMRect
-  ): { transform: string } {
+  private getTransformation(first: DOMRect, last: DOMRect): Keyframe {
+    const deltaX = first.left - last.left;
+    const deltaY = first.top - last.top;
+    const transformation: TransformationType = {
+      transform: `translate(${deltaX}px, ${deltaY}px)`,
+    };
+
     if (this.withScaling) {
       const ratioWidth = first.width / last.width;
       const ratioHeight = first.height / last.height;
@@ -26,16 +41,14 @@ export class Flip {
         first.left - last.left + (transformedWidth - last.width) / 2;
       const deltaY =
         first.top - last.top + (transformedHeight - last.height) / 2;
-      return {
-        transform: `translate(${deltaX}px, ${deltaY}px) scale(${ratioWidth}, ${ratioHeight})`,
-      };
+      transformation.transform = `translate(${deltaX}px, ${deltaY}px) scale(${ratioWidth}, ${ratioHeight})`;
     }
 
-    const deltaX = first.left - last.left;
-    const deltaY = first.top - last.top;
-    return {
-      transform: `translate(${deltaX}px, ${deltaY}px)`,
-    };
+    if (this.withAbsolute) {
+      transformation.position = "absolute";
+    }
+
+    return transformation as Keyframe;
   }
 
   read(elements: NodeListOf<HTMLElement>) {
@@ -70,15 +83,21 @@ export class Flip {
       }
 
       // --- experimental Web Animation API ---
-      item.animate(
-        [
-          transformation,
-          {
-            transform: "none",
-          },
-        ],
-        { duration: 300, easing: "cubic-bezier(0.4, 0.0, 0.2, 1)" }
-      );
+      const keyframes = [
+        transformation,
+        {
+          transform: "none",
+        },
+      ];
+      if (this.withAbsolute) {
+        keyframes.push({
+          position: "initial",
+        });
+      }
+      item.animate(keyframes, {
+        duration: this.animationDuration,
+        easing: "cubic-bezier(0.4, 0.0, 0.2, 1)",
+      });
 
       // --- old school animation ---
       // item.style.transition = "none";

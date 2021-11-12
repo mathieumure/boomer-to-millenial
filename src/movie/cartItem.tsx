@@ -86,6 +86,11 @@ const Container = styled.li`
   }
 `;
 
+const PosterContainer = styled.div`
+  width: 4vw;
+  height: 4vw;
+`;
+
 const Poster = styled.img`
   width: 4vw;
   height: 4vw;
@@ -101,7 +106,9 @@ export const CartItem: FC<{
 }> = ({ movie, onAction }) => {
   return (
     <Container data-flipid={"cart-" + movie.title}>
-      <Poster src={movie.imageUrl} data-flipid={"cart-img-" + movie.title} />
+      <PosterContainer>
+        <Poster src={movie.imageUrl} data-flipid={"cart-img-" + movie.title} />
+      </PosterContainer>
       <p>{movie.title}</p>
       <button
         type="button"
