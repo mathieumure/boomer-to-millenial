@@ -110,7 +110,7 @@ const CTAWrapper = styled.div`
 
 const galleryFlip = new Flip();
 const watchListFlip = new Flip();
-const addToCartFlip = new Flip();
+const addToCartFlip = new Flip({ withScaling: true });
 
 export const MainContent: FC = () => {
   const { cart, searchResults, addToCart, sortMovie, removeFromCart } =
@@ -132,7 +132,9 @@ export const MainContent: FC = () => {
       galleryFlip.read(gallery.current.querySelectorAll("article"));
     }
     if (features.addCartFlip && gallery.current) {
-      addToCartFlip.read(gallery.current.querySelectorAll("div[data-flipid]"));
+      addToCartFlip.read(
+        gallery.current.querySelectorAll("div[data-flipid^=cart-img]")
+      );
     }
   }
 
@@ -147,22 +149,9 @@ export const MainContent: FC = () => {
       addToCartFlip.play(
         watchList.current.querySelectorAll(
           `img[data-flipid="cart-img-${lastAdded?.title}"]`
-        ),
-        (first, last) => {
-          const ratioWidth = first.width / last.width;
-          const ratioHeight = first.height / last.height;
-          const transformedHeight = last.height * ratioHeight;
-          const transformedWidth = last.width * ratioWidth;
-          // We need to take account of the size added by the scale
-          const deltaX =
-            first.left - last.left + (transformedWidth - last.width) / 2;
-          const deltaY =
-            first.top - last.top + (transformedHeight - last.height) / 2;
-          return {
-            transform: `translate(${deltaX}px, ${deltaY}px) scale(${ratioWidth}, ${ratioHeight})`,
-          };
-        }
+        )
       );
+      setLastAction(undefined);
     }
   }
 

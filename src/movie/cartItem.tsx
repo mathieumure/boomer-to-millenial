@@ -1,8 +1,17 @@
 import { FC } from "react";
 import { Movie } from "../data";
-import styled, { css, useTheme } from "styled-components";
+import styled, { css, keyframes, useTheme } from "styled-components";
 import { withKeyboardFocus } from "../baseDesign/utils";
 import { ifFeature } from "../baseDesign/utils";
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+`;
 
 const Container = styled.li`
   display: flex;
@@ -12,16 +21,7 @@ const Container = styled.li`
     "watchlistFlip",
     css`
       opacity: 0;
-      animation: fadein 200ms var(--easing-decelerate) 50ms forwards;
-
-      @keyframes fadein {
-        from {
-          opacity: 0;
-        }
-        to {
-          opacity: 1;
-        }
-      }
+      animation: ${fadeIn} 200ms var(--easing-decelerate) 50ms forwards;
     `
   )}
 
@@ -33,16 +33,7 @@ const Container = styled.li`
       p,
       button {
         opacity: 0;
-        animation: fadein 200ms var(--easing-decelerate) 200ms forwards;
-
-        @keyframes fadein {
-          from {
-            opacity: 0;
-          }
-          to {
-            opacity: 1;
-          }
-        }
+        animation: ${fadeIn} 200ms var(--easing-decelerate) 200ms forwards;
       }
     `
   )}
@@ -101,13 +92,13 @@ const Poster = styled.img`
   flex-shrink: 0;
   border-radius: 0.5rem;
   object-fit: cover;
+  pointer-events: none;
 `;
 
 export const CartItem: FC<{
   movie: Movie;
   onAction: () => void;
 }> = ({ movie, onAction }) => {
-  const { features } = useTheme();
   return (
     <Container data-flipid={"cart-" + movie.title}>
       <Poster src={movie.imageUrl} data-flipid={"cart-img-" + movie.title} />

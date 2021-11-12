@@ -5,9 +5,37 @@
  */
 export class Flip {
   private positions: { [id: string]: DOMRect };
+  private withScaling: boolean;
 
-  constructor() {
+  constructor(options?: { withScaling: boolean }) {
     this.positions = {};
+    this.withScaling = options?.withScaling || false;
+  }
+
+  private getTransformation(
+    first: DOMRect,
+    last: DOMRect
+  ): { transform: string } {
+    if (this.withScaling) {
+      const ratioWidth = first.width / last.width;
+      const ratioHeight = first.height / last.height;
+      const transformedHeight = last.height * ratioHeight;
+      const transformedWidth = last.width * ratioWidth;
+      // We need to take account of the size added by the scale
+      const deltaX =
+        first.left - last.left + (transformedWidth - last.width) / 2;
+      const deltaY =
+        first.top - last.top + (transformedHeight - last.height) / 2;
+      return {
+        transform: `translate(${deltaX}px, ${deltaY}px) scale(${ratioWidth}, ${ratioHeight})`,
+      };
+    }
+
+    const deltaX = first.left - last.left;
+    const deltaY = first.top - last.top;
+    return {
+      transform: `translate(${deltaX}px, ${deltaY}px)`,
+    };
   }
 
   read(elements: NodeListOf<HTMLElement>) {
@@ -20,13 +48,7 @@ export class Flip {
     });
   }
 
-  play(
-    elements: NodeListOf<HTMLElement>,
-    buildInvertTransformation?: (
-      first: DOMRect,
-      last: DOMRect
-    ) => { transform: string }
-  ) {
+  play(elements: NodeListOf<HTMLElement>) {
     elements.forEach((item) => {
       const id = item.dataset.flipid;
       if (!id || !this.positions[id]) {
@@ -39,9 +61,7 @@ export class Flip {
       // INVERT
       const deltaX = first.left - last.left;
       const deltaY = first.top - last.top;
-      const defaultInvertTransformation = {
-        transform: `translate(${deltaX}px, ${deltaY}px)`,
-      };
+      const transformation = this.getTransformation(first, last);
 
       // PLAY
 
@@ -52,9 +72,7 @@ export class Flip {
       // --- experimental Web Animation API ---
       item.animate(
         [
-          buildInvertTransformation
-            ? buildInvertTransformation(first, last)
-            : defaultInvertTransformation,
+          transformation,
           {
             transform: "none",
           },
