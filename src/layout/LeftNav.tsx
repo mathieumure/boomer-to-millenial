@@ -1,4 +1,4 @@
-import { FC, FormEvent, useState } from "react";
+import { ChangeEventHandler, FC, FormEvent, useEffect, useState } from "react";
 import styled, { css, useTheme } from "styled-components";
 import { useMovies } from "../movie/movieContext";
 import { MovieType } from "../data";
@@ -8,6 +8,7 @@ import Checkbox from "../forms/Checkbox";
 import Switch from "../forms/Switch";
 import Button from "../forms/Button";
 import { SearchIcon } from "../icon/Search.icon";
+import { useSound } from "../sound/useSound";
 
 const Container = styled.aside`
   ${ifNotFeature(
@@ -131,8 +132,9 @@ export const LeftNav: FC = () => {
   const [withComedy, setWithComedy] = useState<boolean>(true);
 
   const { features } = useTheme();
+  const { playSound } = useSound();
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     const movieType: MovieType[] = [];
     if (withMovieType) {
@@ -156,6 +158,7 @@ export const LeftNav: FC = () => {
       movieKind.push("Comedy");
     }
 
+    await playSound("shuffle");
     search({
       title: inputValue,
       movieType,

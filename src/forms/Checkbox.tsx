@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC } from "react";
+import { ChangeEventHandler, FC, MouseEventHandler } from "react";
 import styled, { css, useTheme } from "styled-components";
 import { ifFeature, withKeyboardFocus } from "../baseDesign/utils";
 
