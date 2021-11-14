@@ -41,6 +41,7 @@ const DEFAULT_THEME: Theme = {
     watchlistFlip: true,
     addCartFlip: true,
     sound: true,
+    spatialisation: true,
   },
 };
 

@@ -171,7 +171,7 @@ export const MainContent: FC = () => {
   }, [cart]);
 
   const handleAddToCart = async (movie: Movie) => {
-    await playSound("add");
+    await playSound("add", "left-to-right");
     setLastAction("add");
     flipRead();
     setLastAdded(movie);
@@ -179,7 +179,7 @@ export const MainContent: FC = () => {
   };
 
   const handleRemoveFromCart = async (movie: Movie) => {
-    await playSound("delete");
+    await playSound("delete", "right");
     setLastAction("remove");
     flipRead();
     removeFromCart(movie);
@@ -212,7 +212,7 @@ export const MainContent: FC = () => {
   };
 
   const handleStart = async () => {
-    await playSound("cassette");
+    await playSound("cassette", "right");
     setStarted(true);
   };
 

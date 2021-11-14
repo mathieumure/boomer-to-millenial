@@ -1,6 +1,7 @@
 import { ChangeEventHandler, FC } from "react";
 import styled, { css, useTheme } from "styled-components";
 import { ifFeature, withKeyboardFocus } from "../baseDesign/utils";
+import { useSound } from "../sound/useSound";
 
 const Label = styled.label`
   display: inline-flex;
@@ -84,6 +85,10 @@ type SwitchProps = {
 
 const Switch: FC<SwitchProps> = ({ label, onChange, checked }) => {
   const { features } = useTheme();
+  const { playSound } = useSound();
+  const handleClick = () => {
+    playSound("click", "left");
+  };
 
   if (!features.baseCss) {
     return (
@@ -96,7 +101,12 @@ const Switch: FC<SwitchProps> = ({ label, onChange, checked }) => {
 
   return (
     <Label>
-      <Input type="checkbox" checked={checked} onChange={onChange} />
+      <Input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        onClick={handleClick}
+      />
       <SwitchElement className="switch">
         <span className="switch__handle"></span>
       </SwitchElement>
