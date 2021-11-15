@@ -1,4 +1,11 @@
-import { ChangeEvent, FC, useLayoutEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  FC,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { Movie } from "../data";
 import { MovieCard } from "../movie/movieCard";
 import { MovieCardBase } from "../movie/movieCardBase";
@@ -11,6 +18,7 @@ import { Flip } from "../baseDesign/flip";
 import { Filters } from "./Filters";
 import Button from "../forms/Button";
 import { PlayIcon } from "../icon/Play.icon";
+import { useSound } from "../sound/useSound";
 
 const MainContainer = styled.main`
   ${ifNotFeature(
@@ -126,6 +134,7 @@ export const MainContent: FC = () => {
   const { features } = useTheme();
   const gallery = useRef<HTMLElement>(null);
   const watchList = useRef<HTMLUListElement>(null);
+  const { playSound } = useSound();
 
   function flipRead() {
     if (features.watchlistFlip && watchList.current) {
@@ -161,37 +170,50 @@ export const MainContent: FC = () => {
     }
   }, [cart]);
 
-  const handleAddToCart = (movie: Movie) => {
+  const handleAddToCart = async (movie: Movie) => {
+    await playSound("add", "left-to-right");
     setLastAction("add");
     flipRead();
     setLastAdded(movie);
     addToCart(movie);
   };
 
-  const handleRemoveFromCart = (movie: Movie) => {
+  const handleRemoveFromCart = async (movie: Movie) => {
+    await playSound("delete", "right");
     setLastAction("remove");
     flipRead();
     removeFromCart(movie);
   };
 
-  const handleSortTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleSortTypeChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    await playSound("shuffle");
     const sortType = e.target.value as keyof Movie;
     setCurrentSortType(sortType);
     flipRead();
     sortMovie(sortType, descOrder);
   };
 
-  const handleFilterTypeChange = (sortType: keyof Movie, desc: boolean) => {
+  const handleFilterTypeChange = async (
+    sortType: keyof Movie,
+    desc: boolean
+  ) => {
+    await playSound("shuffle");
     setCurrentSortType(sortType);
     setDescOrder(desc);
     flipRead();
     sortMovie(sortType, desc);
   };
 
-  const handleDescTypeChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleDescTypeChange = async (e: ChangeEvent<HTMLInputElement>) => {
+    await playSound("shuffle");
     setDescOrder(e.target.checked);
     flipRead();
     sortMovie(currentSortType as keyof Movie, e.target.checked);
+  };
+
+  const handleStart = async () => {
+    await playSound("cassette", "right");
+    setStarted(true);
   };
 
   if (!features.baseCss) {
@@ -311,7 +333,7 @@ export const MainContent: FC = () => {
 
         {cart.length > 0 && (
           <CTAWrapper>
-            <Button type="button" onClick={() => setStarted(true)}>
+            <Button type="button" onClick={handleStart}>
               <PlayIcon />
               Démarrer
             </Button>

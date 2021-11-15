@@ -40,6 +40,8 @@ const DEFAULT_THEME: Theme = {
     galleryFlip: true,
     watchlistFlip: true,
     addCartFlip: true,
+    sound: true,
+    spatialisation: true,
   },
 };
 

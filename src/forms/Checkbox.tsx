@@ -1,6 +1,7 @@
-import { ChangeEventHandler, FC } from "react";
+import { ChangeEventHandler, FC, MouseEventHandler } from "react";
 import styled, { css, useTheme } from "styled-components";
 import { ifFeature, withKeyboardFocus } from "../baseDesign/utils";
+import { useSound } from "../sound/useSound";
 
 const Label = styled.label`
   display: inline-flex;
@@ -102,9 +103,19 @@ type CheckboxProps = {
 
 const Checkbox: FC<CheckboxProps> = ({ onChange, checked, label }) => {
   const { features } = useTheme();
+  const { playSound } = useSound();
+  const handleClick = () => {
+    playSound("click", "left");
+  };
+
   return (
     <Label>
-      <Input type="checkbox" onChange={onChange} checked={checked} />
+      <Input
+        type="checkbox"
+        onClick={handleClick}
+        onChange={onChange}
+        checked={checked}
+      />
       {features.baseCss && (
         <Checkmark>
           <CheckmarkIcon></CheckmarkIcon>
