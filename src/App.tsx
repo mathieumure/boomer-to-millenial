@@ -22,9 +22,15 @@ const Container = styled.div`
   )}
 
   ${ifFeature(
-    "baseCss",
+    "font",
     css`
       font-family: Inter, sans-serif;
+    `
+  )}
+
+  ${ifFeature(
+    "baseCss",
+    css`
       display: grid;
       grid-template: 100vh / 20vw 1fr 22vw;
       overflow: hidden;
@@ -35,11 +41,12 @@ const Container = styled.div`
 
 const DEFAULT_THEME: Theme = {
   features: {
-    baseCss: true,
-    microinteractions: true,
-    galleryFlip: true,
-    watchlistFlip: true,
-    addCartFlip: true,
+    font: false,
+    baseCss: false,
+    microinteractions: false,
+    galleryFlip: false,
+    watchlistFlip: false,
+    addCartFlip: false,
     sound: true,
     spatialisation: true,
   },
