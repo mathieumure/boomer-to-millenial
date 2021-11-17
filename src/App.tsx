@@ -5,11 +5,13 @@ import { MainContent } from "./layout/MainContent";
 import { MoviesProvider } from "./movie/movieContext";
 import { Theme, ThemeFeatures } from "./baseDesign/theme";
 import { ifFeature, ifNotFeature } from "./baseDesign/utils";
+import { cloneDeep } from "lodash";
 
 declare global {
   interface Window {
     activateFeature: (featureName: keyof ThemeFeatures) => void;
     disableFeature: (featureName: keyof ThemeFeatures) => void;
+    disableAllFeatures: () => void;
   }
 }
 
@@ -47,13 +49,13 @@ const DEFAULT_THEME: Theme = {
     galleryFlip: false,
     watchlistFlip: false,
     addCartFlip: false,
-    sound: true,
-    spatialisation: true,
+    sound: false,
+    spatialisation: false,
   },
 };
 
 const App: FC = () => {
-  const [theme, setTheme] = useState(DEFAULT_THEME);
+  const [theme, setTheme] = useState(cloneDeep(DEFAULT_THEME));
 
   useEffect(() => {
     window.activateFeature = (featureName: keyof ThemeFeatures) => {
@@ -63,6 +65,9 @@ const App: FC = () => {
     window.disableFeature = (featureName: keyof ThemeFeatures) => {
       theme.features[featureName] = false;
       setTheme({ ...theme });
+    };
+    window.disableAllFeatures = () => {
+      setTheme(cloneDeep(DEFAULT_THEME));
     };
   });
 
