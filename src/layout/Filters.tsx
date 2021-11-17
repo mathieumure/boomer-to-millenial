@@ -1,14 +1,21 @@
 import React from "react";
 import { Movie } from "../data";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { SortIcon } from "../icon/Sort.icon";
-import { withKeyboardFocus } from "../baseDesign/utils";
+import { ifFeature, withKeyboardFocus } from "../baseDesign/utils";
 
 const IconWrapper = styled.span<{ visible: boolean; reversed: boolean }>`
   display: ${(props) => (props.visible ? "flex" : "none")};
   align-items: center;
   transform: ${(props) => (props.reversed ? "matrix(1,0,0,-1,0,0)" : "none")};
   margin-left: 2px;
+
+  ${ifFeature(
+    "microinteractions",
+    css`
+      transition: transform 250ms var(--easing-standard); ;
+    `
+  )}
 `;
 
 const GridContainer = styled.section`

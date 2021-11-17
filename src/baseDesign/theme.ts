@@ -1,4 +1,5 @@
 export type ThemeFeatures = {
+  font: boolean;
   baseCss: boolean;
   microinteractions: boolean;
   galleryFlip: boolean;
