@@ -81,11 +81,12 @@ type InputProps = {
   onChange: ChangeEventHandler<HTMLInputElement>;
   value: string;
   label: string;
+  list?: string;
 };
 
-const TextInput: FC<InputProps> = ({ onChange, value, label }) => (
+const TextInput: FC<InputProps> = ({ onChange, value, label, list }) => (
   <Label>
-    <Input type="text" onChange={onChange} value={value} />
+    <Input type="text" onChange={onChange} value={value} list={list} />
     <p>{label}</p>
   </Label>
 );
