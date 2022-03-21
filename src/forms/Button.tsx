@@ -4,7 +4,7 @@ import { withKeyboardFocus } from "../baseDesign/utils";
 
 const BaseButton = styled.button`
   min-height: 48px;
-  border-radius: 8px;
+  border-radius: var(--border-radius-element);
   padding: 12px 32px;
   color: white;
   background: var(--primary-background);
@@ -26,6 +26,12 @@ const BaseButton = styled.button`
 
   &:active {
     background: var(--primary-darker);
+  }
+
+  &:disabled {
+    background: var(--grey-300);
+    box-shadow: none;
+    cursor: initial;
   }
 
   ${withKeyboardFocus({

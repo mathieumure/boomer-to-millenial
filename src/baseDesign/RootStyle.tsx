@@ -37,6 +37,8 @@ export const RootStyle = createGlobalStyle`
       --easing-standard: cubic-bezier(0.4, 0.0, 0.2, 1);
       --easing-decelerate: cubic-bezier(0.0, 0.0, 0.2, 1);
       --easing-accelerate: cubic-bezier(0.4, 0.0, 1, 1);
+
+      --border-radius-element: 0.5rem;
     }
 
     @font-face {
