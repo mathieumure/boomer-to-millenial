@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FC } from "react";
+import { forwardRef, InputHTMLAttributes } from "react";
 import styled, { css } from "styled-components";
 import { ifFeature, ifNotFeature } from "../baseDesign/utils";
 
@@ -30,8 +30,8 @@ const Label = styled.label`
       input:focus + p,
       input:not([value=""]) + p {
         // -padding-left, -(margin-top + input-height/2 + font-size/2), 0
-        //        -12   ,-(     4      +         40/2   +      16/2  ), 0
-        transform: translate3d(-12px, -32px, 0);
+        //        -12   ,-(     4      +         48/2   +      16/2  ), 0
+        transform: translate3d(-12px, -36px, 0);
         font-size: 0.75rem;
       }
     `
@@ -54,11 +54,11 @@ const Input = styled.input`
   ${ifFeature(
     "baseCss",
     css`
-      height: 40px;
+      height: 48px;
       display: block;
       background: white;
       border: 1px solid var(--grey-300);
-      border-radius: 6px;
+      border-radius: var(--border-radius-element);
       padding: 0 12px;
       transition: all 100ms;
       color: var(--grey-900);
@@ -77,17 +77,17 @@ const Input = styled.input`
   )}
 `;
 
-type InputProps = {
-  onChange: ChangeEventHandler<HTMLInputElement>;
-  value: string;
+type InputProps = InputHTMLAttributes<HTMLInputElement> & {
   label: string;
 };
 
-const TextInput: FC<InputProps> = ({ onChange, value, label }) => (
-  <Label>
-    <Input type="text" onChange={onChange} value={value} />
-    <p>{label}</p>
-  </Label>
+const TextInput = forwardRef<HTMLInputElement, InputProps>(
+  ({ label, children, ...inputProps }, ref) => (
+    <Label>
+      <Input type="text" {...inputProps} ref={ref} />
+      <p>{label}</p>
+    </Label>
+  )
 );
 
 export default TextInput;

@@ -6,6 +6,7 @@ import { MoviesProvider } from "./movie/movieContext";
 import { Theme, ThemeFeatures } from "./baseDesign/theme";
 import { ifFeature, ifNotFeature } from "./baseDesign/utils";
 import { cloneDeep } from "lodash";
+import { FeaturePan } from "./layout/FeaturePan";
 
 declare global {
   interface Window {
@@ -56,6 +57,11 @@ const DEFAULT_THEME: Theme = {
 
 const App: FC = () => {
   const [theme, setTheme] = useState(cloneDeep(DEFAULT_THEME));
+  const [featurePanVisible, setFeaturePanVisible] = useState(false);
+
+  const toggleFeatureSelect = () => {
+    setFeaturePanVisible(!featurePanVisible);
+  };
 
   useEffect(() => {
     window.activateFeature = (featureName: keyof ThemeFeatures) => {
@@ -71,10 +77,33 @@ const App: FC = () => {
     };
   });
 
+  useEffect(() => {
+    const handleEscapePressed = (event: KeyboardEvent) => {
+      if (event.code === "Escape" && event.ctrlKey) {
+        toggleFeatureSelect();
+      }
+    };
+    window.addEventListener("keydown", handleEscapePressed);
+
+    return () => {
+      window.removeEventListener("keydown", handleEscapePressed);
+    };
+  }, [toggleFeatureSelect]);
+
+  const handleFeatureQuit = (feature: keyof ThemeFeatures) => {
+    setFeaturePanVisible(false);
+    if (feature) {
+      window.activateFeature(feature);
+    }
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <MoviesProvider>
         <Container>
+          {featurePanVisible ? (
+            <FeaturePan onQuit={handleFeatureQuit} />
+          ) : null}
           <LeftNav />
           <MainContent />
         </Container>

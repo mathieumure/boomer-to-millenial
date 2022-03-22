@@ -6,7 +6,7 @@ import { ifFeature, withKeyboardFocus } from "../baseDesign/utils";
 const Container = styled.article`
   display: inline-flex;
   position: relative;
-  border-radius: 0.5rem;
+  border-radius: var(--border-radius-element);
   box-shadow: 0px 5px 19px -6px rgba(17, 24, 39, 0.8);
   overflow: hidden;
 
