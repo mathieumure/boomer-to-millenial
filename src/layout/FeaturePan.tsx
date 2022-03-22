@@ -1,4 +1,12 @@
-import { FormEvent, FC, useState, useRef, useEffect, useMemo } from "react";
+import {
+  FormEvent,
+  FC,
+  useState,
+  useRef,
+  useEffect,
+  useMemo,
+  useLayoutEffect,
+} from "react";
 import styled, { css, useTheme } from "styled-components";
 import Input from "../forms/Input";
 import Button from "../forms/Button";
@@ -33,34 +41,97 @@ const StyledForm = styled.form`
   column-gap: 1rem;
 `;
 
-type Props = {
-  onQuit: (featureName: keyof ThemeFeatures) => void;
+const KEYFRAME_IN = {
+  opacity: 1,
+  transform: "translateY(0)",
 };
 
-export const FeaturePan: FC<Props> = ({ onQuit }) => {
-  const theme = useTheme();
+const KEYFRAME_OUT = {
+  opacity: 0,
+  transform: "translateY(-15px)",
+};
+
+const ANIMATION_DURATION = 200;
+const ANIMATION_EASING = "cubic-bezier(0.4, 0.0, 0.2, 1)";
+
+const handleFeatureActivation = (feature: keyof ThemeFeatures) => {
+  if (feature) {
+    window.activateFeature(feature);
+  }
+};
+
+export const FeaturePan: FC = () => {
+  const { features } = useTheme();
   const [inputValue, setInputValue] = useState<string>("");
+  const [isVisible, setIsVisible] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const isValueValid = useMemo(
+    () => Object.keys(features).includes(inputValue),
+    [inputValue]
+  );
 
   const activateFeature = (e: FormEvent) => {
     e.preventDefault();
     if (inputValue) {
-      setInputValue("");
-      onQuit(inputValue as keyof ThemeFeatures);
+      handleFeatureActivation(inputValue as keyof ThemeFeatures);
+      slideOut();
     }
   };
 
-  const isValueValid = useMemo(
-    () => Object.keys(theme.features).includes(inputValue),
-    [inputValue]
-  );
+  const slideIn = () => {
+    inputRef.current?.focus();
+
+    if (!wrapperRef.current || !features.microinteractions) {
+      return;
+    }
+    wrapperRef.current.animate([KEYFRAME_OUT, KEYFRAME_IN], {
+      duration: ANIMATION_DURATION,
+      easing: ANIMATION_EASING,
+    });
+  };
+
+  const slideOut = () => {
+    if (!wrapperRef.current) {
+      return;
+    }
+    const animation = wrapperRef.current.animate([KEYFRAME_IN, KEYFRAME_OUT], {
+      duration: features.microinteractions ? ANIMATION_DURATION : 0,
+      easing: ANIMATION_EASING,
+    });
+
+    animation.onfinish = () => {
+      setIsVisible(false);
+      setInputValue("");
+    };
+  };
 
   useEffect(() => {
-    inputRef.current?.focus();
-  }, [inputRef]);
+    const handleEscapePressed = (event: KeyboardEvent) => {
+      if (event.code === "Escape" && event.ctrlKey) {
+        if (isVisible) {
+          slideOut();
+        } else {
+          setIsVisible(true);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleEscapePressed);
 
-  return (
-    <Wrapper>
+    return () => {
+      window.removeEventListener("keydown", handleEscapePressed);
+    };
+  }, [isVisible]);
+
+  useLayoutEffect(() => {
+    if (isVisible) {
+      slideIn();
+    }
+  }, [isVisible]);
+
+  return isVisible ? (
+    <Wrapper ref={wrapperRef}>
       <StyledForm onSubmit={activateFeature}>
         <Input
           ref={inputRef}
@@ -71,12 +142,12 @@ export const FeaturePan: FC<Props> = ({ onQuit }) => {
           required={true}
         />
         <datalist id="theme-keys">
-          {Object.keys(theme.features).map((it) => (
+          {Object.keys(features).map((it) => (
             <option value={it} key={it} />
           ))}
         </datalist>
         <Button disabled={!isValueValid}>Activer</Button>
       </StyledForm>
     </Wrapper>
-  );
+  ) : null;
 };
