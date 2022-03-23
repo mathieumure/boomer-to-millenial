@@ -1,66 +1,49 @@
-import { FormEvent, FC, useState, useRef, useEffect, useMemo } from "react";
-import styled, { css, useTheme } from "styled-components";
+import { FormEvent, FC, useState, useRef, useMemo } from "react";
+import styled, { useTheme } from "styled-components";
 import Input from "../forms/Input";
 import Button from "../forms/Button";
 import { ThemeFeatures } from "../baseDesign/theme";
-import { ifFeature } from "../baseDesign/utils";
-
-const Wrapper = styled.div`
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  right: 2rem;
-  top: 2rem;
-  border: 2px solid black;
-  background-color: white;
-
-  ${ifFeature(
-    "baseCss",
-    css`
-      border-radius: var(--border-radius-element);
-      overflow: hidden;
-      border: 1px solid var(--grey-300);
-      box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.5);
-    `
-  )}
-`;
+import { SlidePanel } from "./SlidePanel";
 
 const StyledForm = styled.form`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem 2rem;
   column-gap: 1rem;
 `;
 
-type Props = {
-  onQuit: (featureName: keyof ThemeFeatures) => void;
+const handleFeatureActivation = (feature: keyof ThemeFeatures) => {
+  if (feature) {
+    window.activateFeature(feature);
+  }
 };
 
-export const FeaturePan: FC<Props> = ({ onQuit }) => {
-  const theme = useTheme();
+export const FeaturePan: FC = () => {
+  const { features } = useTheme();
   const [inputValue, setInputValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
+  const [panelVisible, setPanelVisible] = useState(false);
+
+  const isValueValid = useMemo(
+    () => Object.keys(features).includes(inputValue),
+    [inputValue]
+  );
 
   const activateFeature = (e: FormEvent) => {
     e.preventDefault();
     if (inputValue) {
-      setInputValue("");
-      onQuit(inputValue as keyof ThemeFeatures);
+      handleFeatureActivation(inputValue as keyof ThemeFeatures);
+      setPanelVisible(false);
     }
   };
 
-  const isValueValid = useMemo(
-    () => Object.keys(theme.features).includes(inputValue),
-    [inputValue]
-  );
-
-  useEffect(() => {
-    inputRef.current?.focus();
-  }, [inputRef]);
-
   return (
-    <Wrapper>
+    <SlidePanel
+      visible={panelVisible}
+      onVisibleChange={setPanelVisible}
+      onBeforeEnter={() => inputRef.current?.focus()}
+      onAfterLeave={() => setInputValue("")}
+    >
       <StyledForm onSubmit={activateFeature}>
         <Input
           ref={inputRef}
@@ -71,12 +54,12 @@ export const FeaturePan: FC<Props> = ({ onQuit }) => {
           required={true}
         />
         <datalist id="theme-keys">
-          {Object.keys(theme.features).map((it) => (
+          {Object.keys(features).map((it) => (
             <option value={it} key={it} />
           ))}
         </datalist>
         <Button disabled={!isValueValid}>Activer</Button>
       </StyledForm>
-    </Wrapper>
+    </SlidePanel>
   );
 };
