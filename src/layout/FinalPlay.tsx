@@ -1,3 +1,4 @@
+import { Profiles } from "./Profiles";
 import { FC, useEffect, useState } from "react";
 import styled, { keyframes } from "styled-components";
 import { CloseIcon } from "../icon/Close.icon";
@@ -38,10 +39,11 @@ const Container = styled.div`
   display: none;
 
   &.displayed {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+    color-scheme: dark; // dark scrollbar
+    display: grid;
+    grid-template: 100vh 100vh / auto;
     animation: ${fadeIn} 1000ms ease forwards;
+    overflow: auto;
   }
 `;
 
@@ -108,8 +110,8 @@ export const FinalPlay: FC<{ display: boolean; onAction: () => void }> = ({
         <CloseIcon size={50} fill="white"></CloseIcon>
       </CloseButton>
 
-      {startVideo ? (
-        <PlayerContainer>
+      <PlayerContainer>
+        {startVideo ? (
           <iframe
             // src="https://www.youtube.com/embed/dQw4w9WgXcQ"
             src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
@@ -118,10 +120,12 @@ export const FinalPlay: FC<{ display: boolean; onAction: () => void }> = ({
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
           />
-        </PlayerContainer>
-      ) : (
-        <Title>{cart[0]?.title}</Title>
-      )}
+        ) : (
+          <Title>{cart[0]?.title}</Title>
+        )}
+      </PlayerContainer>
+
+      <Profiles />
     </Container>
   );
 };
